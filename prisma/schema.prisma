@@ -1,0 +1,34 @@
+// This is your Prisma schema file for PostgreSQL (NeonDB compatible)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Payslip {
+  id              String   @id @default(cuid())
+  month           Int      // 1-12
+  year            Int
+  grossSalary     Float    // Gaji bruto
+  takeHomePay     Float    // Gaji bersih yang diterima
+  pph21Deducted   Float    // PPh21 yang dipotong perusahaan
+  otherDeductions Float    @default(0) // Potongan lain (BPJS, etc)
+  fileUrl         String?  // URL to payslip file (PDF, image, etc)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([month, year])
+  @@index([year])
+}
+
+model TaxSettings {
+  id        String   @id @default(cuid())
+  ptkpStatus String  @default("TK/0") // TK/0, TK/1, K/0, K/1, K/2, K/3
+  ptkpAmount Float   // PTKP amount based on status
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

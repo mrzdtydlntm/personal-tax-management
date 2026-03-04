@@ -1,0 +1,33 @@
+{
+  "name": "pph21-tax-manager",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare && prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.1.0",
+    "bcrypt": "^6.0.0",
+    "chart.js": "^4.4.1",
+    "jsonwebtoken": "^9.0.3",
+    "nuxt": "^3.15.1",
+    "vue": "latest",
+    "vue-chartjs": "^5.3.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.2",
+    "@types/bcrypt": "^6.0.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "prisma": "^6.1.0"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}
