@@ -1,13 +1,13 @@
 <template>
   <NuxtLayout name="default">
     <div class="space-y-6">
-      <div class="flex justify-between items-center">
-        <h1 class="text-3xl font-bold text-gray-900">Dashboard PPh21</h1>
-        <div class="flex gap-3 items-center">
-          <select v-model="selectedYear" class="input max-w-xs">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Dashboard PPh21</h1>
+        <div class="flex gap-3 items-center w-full sm:w-auto">
+          <select v-model="selectedYear" class="input w-32 flex-shrink-0">
             <option v-for="y in years" :key="y" :value="y">{{ y }}</option>
           </select>
-          <NuxtLink to="/payslips" class="btn btn-primary">
+          <NuxtLink to="/payslips" class="btn btn-primary flex-1 text-center whitespace-nowrap">
             Tambah Payslip
           </NuxtLink>
         </div>

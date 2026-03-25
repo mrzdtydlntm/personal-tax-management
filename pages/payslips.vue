@@ -1,9 +1,9 @@
 <template>
   <NuxtLayout name="default">
     <div class="space-y-6">
-      <div class="flex justify-between items-center">
-        <h1 class="text-3xl font-bold text-gray-900">Kelola Payslip</h1>
-        <NuxtLink to="/" class="btn btn-secondary">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Kelola Payslip</h1>
+        <NuxtLink to="/" class="btn btn-secondary w-full sm:w-auto text-center">
           Kembali ke Dashboard
         </NuxtLink>
       </div>
@@ -21,7 +21,7 @@
       <div class="card">
         <div class="flex items-center gap-3">
           <label class="text-sm font-medium text-gray-700">Filter Tahun:</label>
-          <select v-model="selectedYear" class="input max-w-xs">
+          <select v-model="selectedYear" class="input w-32 flex-shrink-0">
             <option v-for="y in years" :key="y" :value="y">{{ y }}</option>
           </select>
         </div>
