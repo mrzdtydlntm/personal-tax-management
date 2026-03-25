@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
+  <div class="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center py-8 px-4 sm:px-6">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 sm:p-10">
       <!-- Header -->
       <div class="text-center mb-8">
         <div class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -17,7 +17,7 @@
       <form @submit.prevent="handleRegister" class="space-y-5">
         <div>
           <label class="label">Username</label>
-          <input v-model="form.username" type="text" class="input" placeholder="johndoe" required autofocus
+          <input ref="usernameInput" v-model="form.username" type="text" class="input" placeholder="johndoe" required
             :disabled="loading" minlength="3" />
         </div>
 
@@ -112,6 +112,11 @@ const form = reactive({
 const showPassword = ref(false)
 const loading = ref(false)
 const error = ref('')
+const usernameInput = ref(null)
+
+onMounted(() => {
+  usernameInput.value?.focus()
+})
 
 const passwordsMatch = computed(() =>
   !form.confirmPassword || form.password === form.confirmPassword

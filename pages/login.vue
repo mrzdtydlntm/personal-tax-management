@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
+  <div class="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4 sm:p-6">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 sm:p-10">
       <!-- Header -->
       <div class="text-center mb-8">
         <div class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -17,12 +17,12 @@
         <div>
           <label class="label">Email</label>
           <input
+            ref="emailInput"
             v-model="form.email"
             type="email"
             class="input"
             placeholder="email@contoh.com"
             required
-            autofocus
             :disabled="loading"
           />
         </div>
@@ -97,6 +97,11 @@ const form = reactive({ email: '', password: '' })
 const showPassword = ref(false)
 const loading = ref(false)
 const error = ref('')
+const emailInput = ref(null)
+
+onMounted(() => {
+  emailInput.value?.focus()
+})
 
 const handleLogin = async () => {
   loading.value = true
