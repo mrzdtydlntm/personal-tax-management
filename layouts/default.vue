@@ -35,6 +35,13 @@
             <div class="text-sm text-gray-500">
               Tax Year: {{ currentYear }}
             </div>
+            <!-- User Info -->
+            <div v-if="user" class="flex items-center gap-2 text-sm text-gray-700">
+              <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-semibold text-xs uppercase">
+                {{ user.username?.charAt(0) }}
+              </div>
+              <span class="hidden sm:inline font-medium">{{ user.username }}</span>
+            </div>
             <button
               @click="handleLogout"
               class="text-sm text-red-600 hover:text-red-800 font-medium flex items-center gap-1"
@@ -66,6 +73,14 @@
 
 <script setup>
 const currentYear = new Date().getFullYear()
+const user = ref(null)
+
+onMounted(async () => {
+  try {
+    const { user: authUser } = await $fetch('/api/auth/check')
+    user.value = authUser
+  } catch {}
+})
 
 const handleLogout = async () => {
   try {

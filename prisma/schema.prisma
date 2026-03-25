@@ -9,26 +9,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id          String   @id @default(cuid())
+  username    String   @unique
+  email       String   @unique
+  password    String   // HMAC-SHA512 hashed password
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  payslips    Payslip[]
+  taxSettings TaxSettings?
+
+  @@index([email])
+}
+
 model Payslip {
   id              String   @id @default(cuid())
+  userId          String
   month           Int      // 1-12
   year            Int
-  grossSalary     Float    // Gaji bruto
-  takeHomePay     Float    // Gaji bersih yang diterima
-  pph21Deducted   Float    // PPh21 yang dipotong perusahaan
-  otherDeductions Float    @default(0) // Potongan lain (BPJS, etc)
+  grossSalary     String   // Gaji bruto (AES-256-GCM encrypted)
+  takeHomePay     String   // Gaji bersih yang diterima (AES-256-GCM encrypted)
+  pph21Deducted   String   // PPh21 yang dipotong perusahaan (AES-256-GCM encrypted)
+  otherDeductions String   // Potongan lain (BPJS, etc) (AES-256-GCM encrypted)
   fileUrl         String?  // URL to payslip file (PDF, image, etc)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
-  @@unique([month, year])
-  @@index([year])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, month, year])
+  @@index([userId, year])
 }
 
 model TaxSettings {
-  id        String   @id @default(cuid())
-  ptkpStatus String  @default("TK/0") // TK/0, TK/1, K/0, K/1, K/2, K/3
-  ptkpAmount Float   // PTKP amount based on status
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  ptkpStatus  String   @default("TK/0")
+  ptkpAmount  Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

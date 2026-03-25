@@ -1,29 +1,41 @@
 <template>
   <div class="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8">
-      <!-- Logo/Header -->
+      <!-- Header -->
       <div class="text-center mb-8">
         <div class="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg class="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
           </svg>
         </div>
-        <h1 class="text-3xl font-bold text-gray-900 mb-2">PPh21 Tax Manager</h1>
-        <p class="text-gray-600">Masukkan password untuk melanjutkan</p>
+        <h1 class="text-3xl font-bold text-gray-900 mb-1">PPh21 Tax Manager</h1>
+        <p class="text-gray-500 text-sm">Masuk ke akun Anda</p>
       </div>
 
-      <!-- Login Form -->
-      <form @submit.prevent="handleLogin">
-        <div class="mb-6">
+      <!-- Form -->
+      <form @submit.prevent="handleLogin" class="space-y-5">
+        <div>
+          <label class="label">Email</label>
+          <input
+            v-model="form.email"
+            type="email"
+            class="input"
+            placeholder="email@contoh.com"
+            required
+            autofocus
+            :disabled="loading"
+          />
+        </div>
+
+        <div>
           <label class="label">Password</label>
           <div class="relative">
             <input
-              v-model="password"
+              v-model="form.password"
               :type="showPassword ? 'text' : 'password'"
               class="input pr-12"
               placeholder="Masukkan password"
               required
-              autofocus
               :disabled="loading"
             />
             <button
@@ -43,26 +55,19 @@
           </div>
         </div>
 
-        <!-- Error Message -->
-        <div v-if="error" class="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
-          <svg class="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <!-- Error -->
+        <div v-if="error" class="p-4 bg-red-50 border border-red-200 rounded-lg flex items-start gap-3">
+          <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <div class="flex-1">
-            <p class="text-sm text-red-800 font-medium">{{ error }}</p>
-          </div>
+          <p class="text-sm text-red-800">{{ error }}</p>
         </div>
 
-        <!-- Submit Button -->
-        <button
-          type="submit"
-          class="w-full btn btn-primary py-3 text-lg font-semibold"
-          :disabled="loading"
-        >
+        <button type="submit" class="w-full btn btn-primary py-3 text-base font-semibold" :disabled="loading">
           <span v-if="loading" class="flex items-center justify-center gap-2">
             <svg class="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
             </svg>
             Memverifikasi...
           </span>
@@ -70,20 +75,25 @@
         </button>
       </form>
 
-      <!-- Footer -->
-      <div class="mt-8 text-center text-sm text-gray-500">
-        <p>🔒 Aplikasi ini dilindungi dengan enkripsi JWT</p>
-      </div>
+      <!-- Register link -->
+      <p class="mt-6 text-center text-sm text-gray-500">
+        Belum punya akun?
+        <NuxtLink to="/register" class="text-blue-600 hover:text-blue-800 font-medium">
+          Daftar sekarang
+        </NuxtLink>
+      </p>
+
+      <p class="mt-4 text-center text-xs text-gray-400">
+        🔒 Dilindungi dengan enkripsi JWT HS512
+      </p>
     </div>
   </div>
 </template>
 
 <script setup>
-definePageMeta({
-  layout: false
-})
+definePageMeta({ layout: false })
 
-const password = ref('')
+const form = reactive({ email: '', password: '' })
 const showPassword = ref(false)
 const loading = ref(false)
 const error = ref('')
@@ -93,24 +103,18 @@ const handleLogin = async () => {
   error.value = ''
 
   try {
-    const response = await $fetch('/api/auth/login', {
+    await $fetch('/api/auth/login', {
       method: 'POST',
-      body: { password: password.value }
+      body: { email: form.email, password: form.password }
     })
-
-    if (response.success) {
-      // Redirect to dashboard
-      await navigateTo('/')
-    }
+    await navigateTo('/')
   } catch (e) {
-    error.value = e.data?.message || 'Password salah. Silakan coba lagi.'
-    password.value = ''
+    error.value = e.data?.message || 'Email atau password salah.'
+    form.password = ''
   } finally {
     loading.value = false
   }
 }
 
-useHead({
-  title: 'Login - PPh21 Tax Manager'
-})
+useHead({ title: 'Login - PPh21 Tax Manager' })
 </script>
