@@ -1,11 +1,12 @@
 import prisma from '~/server/utils/prisma'
+import { requireAuth } from '~/server/utils/auth'
+import { encryptNumber, decryptPayslip } from '~/server/utils/encryption'
 
 export default defineEventHandler(async (event) => {
+  const { userId } = requireAuth(event)
   const body = await readBody(event)
-
   const { month, year, grossSalary, takeHomePay, pph21Deducted, otherDeductions, fileUrl } = body
 
-  // Validate required fields
   if (!month || !year || grossSalary === undefined || takeHomePay === undefined || pph21Deducted === undefined) {
     throw createError({
       statusCode: 400,
@@ -13,7 +14,6 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  // Validate month range
   if (month < 1 || month > 12) {
     throw createError({
       statusCode: 400,
@@ -21,11 +21,8 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  // Check if payslip already exists
   const existing = await prisma.payslip.findUnique({
-    where: {
-      month_year: { month, year }
-    }
+    where: { userId_month_year: { userId, month, year } }
   })
 
   if (existing) {
@@ -35,17 +32,18 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const payslip = await prisma.payslip.create({
+  const row = await prisma.payslip.create({
     data: {
+      userId,
       month,
       year,
-      grossSalary: parseFloat(grossSalary),
-      takeHomePay: parseFloat(takeHomePay),
-      pph21Deducted: parseFloat(pph21Deducted),
-      otherDeductions: otherDeductions ? parseFloat(otherDeductions) : 0,
-      fileUrl: fileUrl || null
+      grossSalary:     encryptNumber(parseFloat(grossSalary)),
+      takeHomePay:     encryptNumber(parseFloat(takeHomePay)),
+      pph21Deducted:   encryptNumber(parseFloat(pph21Deducted)),
+      otherDeductions: encryptNumber(otherDeductions ? parseFloat(otherDeductions) : 0),
+      fileUrl:         fileUrl || null
     }
   })
 
-  return payslip
+  return decryptPayslip(row)
 })

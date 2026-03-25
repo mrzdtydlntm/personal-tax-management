@@ -7,6 +7,7 @@ export default defineEventHandler((event) => {
   // Public paths that don't require authentication
   const publicPaths = [
     '/api/auth/login',
+    '/api/auth/register',
     '/api/auth/check',
   ]
 
