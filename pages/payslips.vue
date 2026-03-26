@@ -36,7 +36,7 @@
 const route = useRoute()
 const router = useRouter()
 
-const selectedYear = ref(new Date().getFullYear())
+const selectedYear = ref(route.query.year ? Number(route.query.year) : new Date().getFullYear())
 const payslips = ref([])
 const editingPayslip = ref(null)
 const loading = ref(false)
@@ -70,7 +70,7 @@ const handleEdit = async (payslip) => {
   
   try {
     await new Promise(resolve => setTimeout(resolve, 600)) // Artificial delay to ensure loader is visible
-    await router.push({ query: { edit: payslip.id } })
+    await router.push({ query: { edit: payslip.id, year: selectedYear.value } })
     editingPayslip.value = payslip
   } finally {
     loadingEditId.value = null

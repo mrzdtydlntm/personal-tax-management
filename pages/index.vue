@@ -98,7 +98,7 @@ const fetchData = async () => {
 }
 
 const handleEdit = (payslip) => {
-  navigateTo(`/payslips?edit=${payslip.id}`)
+  navigateTo(`/payslips?edit=${payslip.id}&year=${payslip.year}`)
 }
 
 watch(selectedYear, fetchData)
