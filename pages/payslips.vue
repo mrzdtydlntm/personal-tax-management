@@ -27,7 +27,14 @@
       </div>
 
       <!-- Payslip List -->
-      <PayslipList :payslips="payslips" :year="selectedYear" :loading="loading" :loading-edit-id="loadingEditId" @refresh="fetchPayslips" @edit="handleEdit" />
+      <PayslipList
+        :payslips="payslips"
+        :year="selectedYear"
+        :loading="loading"
+        :loading-edit-id="loadingEditId"
+        @refresh="fetchPayslips"
+        @edit="handleEdit"
+      />
     </div>
   </NuxtLayout>
 </template>
@@ -45,7 +52,7 @@ const loadingEditId = ref(null)
 
 const years = computed(() => {
   const currentYear = new Date().getFullYear()
-  return Array.from({ length: 5 }, (_, i) => currentYear - 2 + i)
+  return Array.from({ length: 8 }, (_, i) => currentYear - 7 + i)
 })
 
 const fetchPayslips = async () => {
@@ -65,11 +72,11 @@ const fetchPayslips = async () => {
 const handleEdit = async (payslip) => {
   loadingEditId.value = payslip.id
   changingMode.value = true
-  
+
   window.scrollTo({ top: 0, behavior: 'smooth' })
-  
+
   try {
-    await new Promise(resolve => setTimeout(resolve, 600)) // Artificial delay to ensure loader is visible
+    await new Promise((resolve) => setTimeout(resolve, 600)) // Artificial delay to ensure loader is visible
     await router.push({ query: { edit: payslip.id, year: selectedYear.value } })
     editingPayslip.value = payslip
   } finally {
