@@ -1,7 +1,19 @@
 <template>
   <div class="card">
     <h3 class="text-lg font-semibold mb-4">Grafik PPh21 Bulanan</h3>
-    <canvas ref="chartCanvas"></canvas>
+    <!-- Skeleton -->
+    <div v-if="loading" class="animate-pulse">
+      <div class="flex items-end gap-2 h-48 px-4">
+        <div v-for="i in 8" :key="i" class="flex-1 bg-gray-200 rounded-t"
+          :style="{ height: (30 + Math.sin(i) * 20 + i * 5) + '%' }"></div>
+      </div>
+      <div class="flex justify-center gap-6 mt-4">
+        <div class="flex items-center gap-2"><div class="w-4 h-3 bg-gray-200 rounded"></div><div class="h-3 bg-gray-200 rounded w-16"></div></div>
+        <div class="flex items-center gap-2"><div class="w-4 h-3 bg-gray-200 rounded"></div><div class="h-3 bg-gray-200 rounded w-10"></div></div>
+        <div class="flex items-center gap-2"><div class="w-4 h-3 bg-gray-200 rounded"></div><div class="h-3 bg-gray-200 rounded w-20"></div></div>
+      </div>
+    </div>
+    <canvas v-else ref="chartCanvas"></canvas>
   </div>
 </template>
 
@@ -14,6 +26,10 @@ const props = defineProps({
   payslips: {
     type: Array,
     required: true
+  },
+  loading: {
+    type: Boolean,
+    default: false
   }
 })
 

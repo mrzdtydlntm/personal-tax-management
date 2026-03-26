@@ -31,8 +31,13 @@
           </div>
           <div class="flex items-center gap-4">
             <div class="text-sm text-gray-500">Tax Year: {{ currentYear }}</div>
+            <!-- User Info skeleton -->
+            <div v-if="userLoading" class="flex items-center gap-2 animate-pulse">
+              <div class="w-8 h-8 bg-gray-200 rounded-full"></div>
+              <div class="hidden sm:block h-3 bg-gray-200 rounded w-20"></div>
+            </div>
             <!-- User Info -->
-            <div v-if="user" class="flex items-center gap-2 text-sm text-gray-700">
+            <div v-else-if="user" class="flex items-center gap-2 text-sm text-gray-700">
               <div
                 class="w-8 h-8 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center font-semibold text-xs uppercase"
               >
@@ -77,12 +82,16 @@
 <script setup>
 const currentYear = new Date().getFullYear()
 const user = ref(null)
+const userLoading = ref(true)
 
 onMounted(async () => {
   try {
     const { user: authUser } = await $fetch('/api/auth/check')
     user.value = authUser
   } catch {}
+  finally {
+    userLoading.value = false
+  }
 })
 
 const handleLogout = async () => {

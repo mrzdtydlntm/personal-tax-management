@@ -26,7 +26,7 @@
       </div>
 
       <!-- Payslip List -->
-      <PayslipList :payslips="payslips" :year="selectedYear" @refresh="fetchPayslips" @edit="handleEdit" />
+      <PayslipList :payslips="payslips" :year="selectedYear" :loading="loading" @refresh="fetchPayslips" @edit="handleEdit" />
     </div>
   </NuxtLayout>
 </template>
@@ -38,6 +38,7 @@ const router = useRouter()
 const selectedYear = ref(new Date().getFullYear())
 const payslips = ref([])
 const editingPayslip = ref(null)
+const loading = ref(false)
 
 const years = computed(() => {
   const currentYear = new Date().getFullYear()
@@ -45,14 +46,16 @@ const years = computed(() => {
 })
 
 const fetchPayslips = async () => {
+  loading.value = true
   try {
     const data = await $fetch(`/api/payslips?year=${selectedYear.value}&_=${Date.now()}`, {
-      // Force fresh data, no cache
       cache: 'no-cache'
     })
     payslips.value = data
   } catch (e) {
     console.error('Failed to fetch payslips:', e)
+  } finally {
+    loading.value = false
   }
 }
 
