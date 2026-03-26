@@ -24,7 +24,10 @@
 
         <div>
           <label class="label">Tahun</label>
-          <input v-model.number="form.year" type="number" class="input" :min="2020" :max="2030" required />
+          <select v-model.number="form.year" class="input" required>
+            <option value="">Pilih Tahun</option>
+            <option v-for="y in availableYears" :key="y" :value="y">{{ y }}</option>
+          </select>
         </div>
 
         <div>
@@ -135,6 +138,11 @@ const months = [
   { value: 11, label: 'November' },
   { value: 12, label: 'Desember' }
 ]
+
+const availableYears = computed(() => {
+  const currentYear = new Date().getFullYear()
+  return Array.from({ length: 8 }, (_, i) => currentYear - 7 + i)
+})
 
 const form = reactive({
   month: props.initialData?.month || '',
