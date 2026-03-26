@@ -6,17 +6,17 @@ This document provides a comprehensive overview of the application's architectur
 
 ## Tech Stack
 
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| Frontend | Vue 3 (Composition API) | Reactive UI components |
-| Framework | Nuxt 3 | Fullstack framework with SSR/SSG |
-| Styling | TailwindCSS | Utility-first CSS |
-| Charts | Chart.js + vue-chartjs | Data visualization |
-| Backend | Nuxt Server Routes | RESTful API endpoints |
-| Database | PostgreSQL | Production-ready RDBMS |
-| ORM | Prisma | Type-safe database client |
-| Runtime | Node.js v24.13.0 | JavaScript runtime |
-| Package Manager | pnpm | Fast, disk space efficient |
+| Layer           | Technology              | Purpose                          |
+| --------------- | ----------------------- | -------------------------------- |
+| Frontend        | Vue 3 (Composition API) | Reactive UI components           |
+| Framework       | Nuxt 3                  | Fullstack framework with SSR/SSG |
+| Styling         | TailwindCSS             | Utility-first CSS                |
+| Charts          | Chart.js + vue-chartjs  | Data visualization               |
+| Backend         | Nuxt Server Routes      | RESTful API endpoints            |
+| Database        | PostgreSQL              | Production-ready RDBMS           |
+| ORM             | Prisma                  | Type-safe database client        |
+| Runtime         | Node.js v24.13.0        | JavaScript runtime               |
+| Package Manager | pnpm                    | Fast, disk space efficient       |
 
 ## Architecture Layers
 
@@ -51,11 +51,13 @@ components/
 ```
 
 **Design Pattern**: Single Responsibility Principle
+
 - Each component handles one specific UI concern
 - Props-down, events-up communication pattern
 - Composition API for better code organization
 
 #### PayslipForm.vue
+
 ```
 Responsibilities:
 - Form state management
@@ -75,6 +77,7 @@ Events:
 ```
 
 #### PayslipList.vue
+
 ```
 Responsibilities:
 - Display tabular data
@@ -94,6 +97,7 @@ Events:
 ```
 
 #### TaxSummaryCard.vue
+
 ```
 Responsibilities:
 - Fetch tax calculation from API
@@ -111,6 +115,7 @@ Exposed Methods:
 ```
 
 #### TaxChart.vue
+
 ```
 Responsibilities:
 - Initialize Chart.js
@@ -133,6 +138,7 @@ layouts/
 ```
 
 **Features**:
+
 - Responsive navigation bar
 - Active link highlighting
 - Year indicator
@@ -151,11 +157,13 @@ pages/
 ```
 
 **Routing Convention**: Nuxt's file-based routing
+
 - `index.vue` → `/`
 - `payslips.vue` → `/payslips`
 - `settings.vue` → `/settings`
 
 #### index.vue (Dashboard)
+
 ```
 Features:
 - Year filter selector
@@ -175,6 +183,7 @@ Lifecycle:
 ```
 
 #### payslips.vue
+
 ```
 Features:
 - Add new payslip form
@@ -192,6 +201,7 @@ Query Params:
 ```
 
 #### settings.vue
+
 ```
 Features:
 - PTKP status selector
@@ -224,12 +234,14 @@ server/api/
 ```
 
 **RESTful Convention**:
+
 - `GET` for reading
 - `POST` for creating
 - `PUT` for updating
 - `DELETE` for deleting
 
 **Error Handling Pattern**:
+
 ```typescript
 throw createError({
   statusCode: 400,
@@ -240,6 +252,7 @@ throw createError({
 #### Payslips API
 
 **GET /api/payslips**
+
 ```typescript
 Query: { year?: number }
 Returns: Payslip[]
@@ -247,6 +260,7 @@ Purpose: Fetch all payslips for a year
 ```
 
 **POST /api/payslips**
+
 ```typescript
 Body: {
   month: number,
@@ -264,6 +278,7 @@ Validations:
 ```
 
 **PUT /api/payslips/:id**
+
 ```typescript
 Params: { id: string }
 Body: Partial<PayslipData>
@@ -272,6 +287,7 @@ Purpose: Update existing payslip
 ```
 
 **DELETE /api/payslips/:id**
+
 ```typescript
 Params: { id: string }
 Returns: { success: true }
@@ -281,6 +297,7 @@ Purpose: Delete payslip
 #### Tax API
 
 **POST /api/tax/calculate**
+
 ```typescript
 Body: {
   year: number,
@@ -318,12 +335,14 @@ Returns: {
 #### Tax Settings API
 
 **GET /api/tax-settings**
+
 ```typescript
 Returns: TaxSettings
 Purpose: Get current PTKP settings (creates default if not exists)
 ```
 
 **PUT /api/tax-settings**
+
 ```typescript
 Body: { ptkpStatus: string }
 Returns: TaxSettings
@@ -341,6 +360,7 @@ server/utils/
 ```
 
 #### prisma.ts - Database Client
+
 ```typescript
 Pattern: Singleton
 Purpose:
@@ -356,6 +376,7 @@ Implementation:
 ```
 
 #### taxCalculator.ts - Tax Logic
+
 ```typescript
 Pure Functions:
   - calculateProgressiveTax(income): Apply tax brackets
@@ -374,6 +395,7 @@ Design:
 ```
 
 **Tax Calculation Algorithm**:
+
 ```
 1. Calculate Taxable Income
    taxableIncome = annualGross - PTKP
@@ -411,6 +433,7 @@ prisma/
 **Models**:
 
 1. **Payslip**
+
 ```prisma
 Purpose: Monthly payslip records
 
@@ -437,6 +460,7 @@ Design Decisions:
 ```
 
 2. **TaxSettings**
+
 ```prisma
 Purpose: User's PTKP configuration (singleton)
 
@@ -456,6 +480,7 @@ Design:
 ## Data Flow
 
 ### Add Payslip Flow
+
 ```
 User Input (PayslipForm.vue)
   ↓
@@ -481,6 +506,7 @@ User Input (PayslipForm.vue)
 ```
 
 ### Tax Calculation Flow
+
 ```
 User visits Dashboard
   ↓
@@ -510,24 +536,29 @@ User visits Dashboard
 ## Design Patterns
 
 ### 1. Component Composition
+
 - Small, focused components
 - Props down, events up
 - Composition over inheritance
 
 ### 2. Singleton Pattern
+
 - Prisma Client instance
 - Tax Settings (database)
 
 ### 3. Repository Pattern
+
 - Prisma abstracts data access
 - Business logic separate from queries
 
 ### 4. RESTful API
+
 - Resource-based endpoints
 - HTTP verbs for actions
 - Predictable URL structure
 
 ### 5. Pure Functions
+
 - Tax calculations
 - No side effects
 - Easily testable
@@ -537,12 +568,14 @@ User visits Dashboard
 **Approach**: Local component state (no Vuex/Pinia)
 
 **Rationale**:
+
 - Application is simple enough
 - No complex shared state
 - Direct API communication
 - Component-level reactivity sufficient
 
 **State Locations**:
+
 - Component `ref()`/`reactive()` for UI state
 - Database for persistent state
 - Computed properties for derived state
@@ -550,18 +583,21 @@ User visits Dashboard
 ## Performance Considerations
 
 ### Database
+
 - Indexed `year` field for fast filtering
 - Unique constraints prevent duplicates
 - Connection pooling (Prisma)
 - Efficient queries (no N+1)
 
 ### Frontend
+
 - Computed properties for derived data
 - Chart.js canvas rendering
 - Component lazy loading (automatic with Nuxt)
 - TailwindCSS purging (production)
 
 ### API
+
 - Direct database queries (no unnecessary layers)
 - Minimal data transformation
 - Efficient aggregations
@@ -569,16 +605,19 @@ User visits Dashboard
 ## Security
 
 ### Database
+
 - Prisma prevents SQL injection
 - Parameterized queries
 - Type-safe operations
 
 ### API
+
 - Input validation on all endpoints
 - Error messages don't leak sensitive data
 - CORS handled by Nuxt
 
 ### Environment
+
 - Sensitive data in .env
 - .gitignore protects credentials
 - Environment variables required
@@ -586,16 +625,19 @@ User visits Dashboard
 ## Testing Strategy
 
 ### Unit Tests (Recommended)
+
 - Tax calculation functions
 - Pure utility functions
 - Component logic
 
 ### Integration Tests (Recommended)
+
 - API endpoints
 - Database operations
 - Full user flows
 
 ### E2E Tests (Optional)
+
 - Critical user paths
 - Form submissions
 - Navigation
@@ -603,12 +645,14 @@ User visits Dashboard
 ## Deployment Considerations
 
 ### Environment Variables
+
 ```
 DATABASE_URL=postgresql://...
 NODE_ENV=production
 ```
 
 ### Build Steps
+
 ```bash
 1. pnpm install
 2. pnpm prisma generate
@@ -617,11 +661,13 @@ NODE_ENV=production
 ```
 
 ### Database Migrations
+
 - Never run `prisma migrate dev` in production
 - Use `prisma migrate deploy` instead
 - Backup database before migrations
 
 ### Monitoring
+
 - Database connection health
 - API response times
 - Error rates
@@ -630,11 +676,13 @@ NODE_ENV=production
 ## Scalability
 
 ### Current Limits
+
 - Single database (vertical scaling)
 - No caching layer
 - No CDN for assets
 
 ### Scale-Up Path
+
 1. **Database**: Connection pooling (PgBouncer)
 2. **Caching**: Redis for computed values
 3. **CDN**: Static assets (Vercel Edge)
@@ -642,6 +690,7 @@ NODE_ENV=production
 5. **Read Replicas**: Database reads
 
 ### Expected Performance
+
 - 100-1000 users: Current architecture sufficient
 - 1000-10000 users: Add caching, CDN
 - 10000+ users: Load balancing, replicas
@@ -649,6 +698,7 @@ NODE_ENV=production
 ## Future Enhancements
 
 ### Potential Features
+
 1. Multi-user support with authentication
 2. File upload for bulk payslip import
 3. PDF report generation
@@ -658,6 +708,7 @@ NODE_ENV=production
 7. SPT form pre-filling
 
 ### Technical Improvements
+
 1. Unit test coverage
 2. E2E test suite
 3. Error tracking (Sentry)
@@ -669,21 +720,25 @@ NODE_ENV=production
 ## Code Style
 
 ### TypeScript
+
 - Explicit types for API responses
 - Inferred types for variables
 - Interfaces for complex objects
 
 ### Vue
+
 - Composition API (not Options API)
 - `<script setup>` syntax
 - Single File Components (.vue)
 
 ### CSS
+
 - TailwindCSS utilities
 - Component-scoped styles only when needed
 - Responsive design (mobile-first)
 
 ### Naming Conventions
+
 - camelCase for variables/functions
 - PascalCase for components
 - kebab-case for file names (routes)
@@ -692,11 +747,13 @@ NODE_ENV=production
 ## Documentation
 
 ### Code Comments
+
 - Only for complex logic
 - Explain "why", not "what"
 - TypeScript types are self-documenting
 
 ### API Documentation
+
 - JSDoc for utility functions
 - Request/response examples
 - Error codes and messages
@@ -704,16 +761,19 @@ NODE_ENV=production
 ## Maintenance
 
 ### Dependencies
+
 - Regular updates (monthly)
 - Security patches (immediate)
 - Breaking changes (plan carefully)
 
 ### Database
+
 - Regular backups
 - Migration history in git
 - Schema changes reviewed
 
 ### Monitoring
+
 - Error logs
 - Performance metrics
 - User feedback
@@ -721,6 +781,7 @@ NODE_ENV=production
 ---
 
 **This architecture is designed to be:**
+
 - ✅ Simple to understand
 - ✅ Easy to maintain
 - ✅ Scalable when needed

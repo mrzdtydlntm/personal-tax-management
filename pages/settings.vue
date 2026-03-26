@@ -3,17 +3,15 @@
     <div class="space-y-6">
       <div class="flex justify-between items-center">
         <h1 class="text-3xl font-bold text-gray-900">Pengaturan Pajak</h1>
-        <NuxtLink to="/" class="btn btn-secondary">
-          Kembali ke Dashboard
-        </NuxtLink>
+        <NuxtLink to="/" class="btn btn-secondary">Kembali ke Dashboard</NuxtLink>
       </div>
 
       <!-- PTKP Settings -->
       <div class="card">
         <h3 class="text-lg font-semibold mb-4">Status PTKP</h3>
         <p class="text-sm text-gray-600 mb-4">
-          Penghasilan Tidak Kena Pajak (PTKP) adalah jumlah penghasilan yang tidak dikenakan pajak.
-          Pilih status sesuai kondisi Anda.
+          Penghasilan Tidak Kena Pajak (PTKP) adalah jumlah penghasilan yang tidak dikenakan pajak. Pilih status sesuai
+          kondisi Anda.
         </p>
 
         <form @submit.prevent="savePtkp">
@@ -31,9 +29,7 @@
             </select>
           </div>
 
-          <div v-if="success" class="mb-4 p-3 bg-green-50 text-green-700 rounded-lg">
-            Pengaturan berhasil disimpan!
-          </div>
+          <div v-if="success" class="mb-4 p-3 bg-green-50 text-green-700 rounded-lg">Pengaturan berhasil disimpan!</div>
 
           <div v-if="error" class="mb-4 p-3 bg-red-50 text-red-700 rounded-lg">
             {{ error }}
@@ -104,9 +100,9 @@
 
         <div class="mt-4 p-4 bg-blue-50 rounded-lg">
           <p class="text-sm text-blue-800">
-            <strong>Catatan:</strong> PTKP adalah penghasilan yang tidak dikenakan pajak.
-            Semakin tinggi PTKP Anda, semakin rendah pajak yang harus dibayar.
-            Pastikan memilih status yang sesuai dengan kondisi Anda saat ini.
+            <strong>Catatan:</strong>
+            PTKP adalah penghasilan yang tidak dikenakan pajak. Semakin tinggi PTKP Anda, semakin rendah pajak yang
+            harus dibayar. Pastikan memilih status yang sesuai dengan kondisi Anda saat ini.
           </p>
         </div>
       </div>
@@ -121,9 +117,11 @@
           </div>
           <div class="p-3 bg-gray-50 rounded">
             <p class="text-gray-700">
-              Aplikasi ini menggunakan PostgreSQL dan kompatibel dengan NeonDB.
-              Pastikan Anda sudah mengatur <code class="bg-gray-200 px-1 rounded">DATABASE_URL</code>
-              di file <code class="bg-gray-200 px-1 rounded">.env</code> Anda.
+              Aplikasi ini menggunakan PostgreSQL dan kompatibel dengan NeonDB. Pastikan Anda sudah mengatur
+              <code class="bg-gray-200 px-1 rounded">DATABASE_URL</code>
+              di file
+              <code class="bg-gray-200 px-1 rounded">.env</code>
+              Anda.
             </p>
           </div>
         </div>

@@ -17,10 +17,7 @@ export interface JWTPayload {
  * Hash password using HMAC-SHA512
  */
 export function hashPassword(password: string): string {
-  return crypto
-    .createHmac('sha512', HASH_SECRET)
-    .update(password)
-    .digest('hex')
+  return crypto.createHmac('sha512', HASH_SECRET).update(password).digest('hex')
 }
 
 /**
@@ -29,10 +26,7 @@ export function hashPassword(password: string): string {
 export function verifyPassword(password: string, hash: string): boolean {
   const inputHash = hashPassword(password)
   try {
-    return crypto.timingSafeEqual(
-      Buffer.from(inputHash, 'hex'),
-      Buffer.from(hash, 'hex')
-    )
+    return crypto.timingSafeEqual(Buffer.from(inputHash, 'hex'), Buffer.from(hash, 'hex'))
   } catch {
     return false
   }

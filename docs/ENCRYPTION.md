@@ -8,13 +8,13 @@ Sensitive financial fields in the `Payslip` table are encrypted at rest using **
 
 ## Encrypted Fields
 
-| Table | Column | Type in DB | Description |
-|-------|--------|-----------|-------------|
-| `Payslip` | `grossSalary` | `TEXT` | Gaji bruto |
-| `Payslip` | `takeHomePay` | `TEXT` | Gaji bersih |
-| `Payslip` | `pph21Deducted` | `TEXT` | PPh21 yang dipotong |
-| `Payslip` | `otherDeductions` | `TEXT` | Potongan lain (BPJS, etc) |
-| `Payslip` | `fileUrl` | `TEXT?` | URL ke file slip gaji |
+| Table     | Column            | Type in DB | Description               |
+| --------- | ----------------- | ---------- | ------------------------- |
+| `Payslip` | `grossSalary`     | `TEXT`     | Gaji bruto                |
+| `Payslip` | `takeHomePay`     | `TEXT`     | Gaji bersih               |
+| `Payslip` | `pph21Deducted`   | `TEXT`     | PPh21 yang dipotong       |
+| `Payslip` | `otherDeductions` | `TEXT`     | Potongan lain (BPJS, etc) |
+| `Payslip` | `fileUrl`         | `TEXT?`    | URL ke file slip gaji     |
 
 Non-sensitive fields (`id`, `userId`, `month`, `year`, `createdAt`, `updatedAt`) are stored in plaintext.
 
@@ -24,13 +24,13 @@ Non-sensitive fields (`id`, `userId`, `month`, `year`, `createdAt`, `updatedAt`)
 
 **AES-256-GCM** (Authenticated Encryption with Associated Data)
 
-| Parameter | Value |
-|-----------|-------|
-| Algorithm | `aes-256-gcm` |
-| Key length | 256 bits (32 bytes) |
-| IV length | 96 bits (12 bytes) — GCM recommended |
-| Auth tag length | 128 bits (16 bytes) |
-| Encoding | Hex |
+| Parameter       | Value                                |
+| --------------- | ------------------------------------ |
+| Algorithm       | `aes-256-gcm`                        |
+| Key length      | 256 bits (32 bytes)                  |
+| IV length       | 96 bits (12 bytes) — GCM recommended |
+| Auth tag length | 128 bits (16 bytes)                  |
+| Encoding        | Hex                                  |
 
 ### Ciphertext Format
 
@@ -41,6 +41,7 @@ Each encrypted value is stored as a colon-separated hex string:
 ```
 
 Example (32 chars IV + 32 chars tag + variable ciphertext):
+
 ```
 a3f2c1...:<auth_tag>:<ciphertext>
 ```
@@ -76,6 +77,7 @@ export function decryptPayslip(row: { ... }): { /* plain numbers */ }
 ### Usage in API routes
 
 **On write (POST / PUT):**
+
 ```typescript
 import { encryptNumber, encryptNullable } from '~/server/utils/encryption'
 
@@ -85,6 +87,7 @@ fileUrl:         encryptNullable(body.fileUrl),
 ```
 
 **On read (GET):**
+
 ```typescript
 import { decryptPayslip } from '~/server/utils/encryption'
 
@@ -118,6 +121,7 @@ This produces a 64-character hex string (256 bits of entropy), well above the 32
 ### Key rotation
 
 Currently there is no built-in key rotation. To rotate:
+
 1. Add a new `ENCRYPTION_KEY_NEW` env var
 2. Write a script similar to `scripts/encrypt-existing-data.ts` that decrypts with the old key and re-encrypts with the new one
 3. Swap `ENCRYPTION_KEY` to the new value and redeploy
@@ -162,26 +166,26 @@ The script is idempotent: it only processes rows where `grossSalary IS NULL` (no
 
 ## Security Properties
 
-| Property | Detail |
-|----------|--------|
-| Confidentiality | AES-256 — computationally infeasible to brute force |
-| Integrity | GCM auth tag — any tampering causes decryption to throw |
-| IV uniqueness | 96-bit random IV per value — prevents ciphertext comparison attacks |
-| Key separation | Separate from JWT secret and password hash secret |
-| No plaintext leakage | Float columns are dropped after migration; no fallback path |
+| Property             | Detail                                                              |
+| -------------------- | ------------------------------------------------------------------- |
+| Confidentiality      | AES-256 — computationally infeasible to brute force                 |
+| Integrity            | GCM auth tag — any tampering causes decryption to throw             |
+| IV uniqueness        | 96-bit random IV per value — prevents ciphertext comparison attacks |
+| Key separation       | Separate from JWT secret and password hash secret                   |
+| No plaintext leakage | Float columns are dropped after migration; no fallback path         |
 
 ---
 
 ## File Changes Summary
 
-| File | Change |
-|------|--------|
-| `server/utils/encryption.ts` | New — AES-256-GCM encrypt/decrypt utilities |
-| `prisma/schema.prisma` | `grossSalary`, `takeHomePay`, `pph21Deducted`, `otherDeductions` → `String` |
-| `prisma/migrations/20260325000001_encrypt_payslip_fields/migration.sql` | Renames float columns, adds TEXT columns |
-| `scripts/encrypt-existing-data.ts` | One-time data migration script |
-| `server/api/payslips/index.get.ts` | Decrypts rows on read |
-| `server/api/payslips/index.post.ts` | Encrypts values on create |
-| `server/api/payslips/[id].put.ts` | Encrypts values on update |
-| `server/api/tax/calculate.post.ts` | Decrypts rows before tax calculation |
-| `.env.example` | Added `ENCRYPTION_KEY` |
+| File                                                                    | Change                                                                      |
+| ----------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `server/utils/encryption.ts`                                            | New — AES-256-GCM encrypt/decrypt utilities                                 |
+| `prisma/schema.prisma`                                                  | `grossSalary`, `takeHomePay`, `pph21Deducted`, `otherDeductions` → `String` |
+| `prisma/migrations/20260325000001_encrypt_payslip_fields/migration.sql` | Renames float columns, adds TEXT columns                                    |
+| `scripts/encrypt-existing-data.ts`                                      | One-time data migration script                                              |
+| `server/api/payslips/index.get.ts`                                      | Decrypts rows on read                                                       |
+| `server/api/payslips/index.post.ts`                                     | Encrypts values on create                                                   |
+| `server/api/payslips/[id].put.ts`                                       | Encrypts values on update                                                   |
+| `server/api/tax/calculate.post.ts`                                      | Decrypts rows before tax calculation                                        |
+| `.env.example`                                                          | Added `ENCRYPTION_KEY`                                                      |

@@ -58,6 +58,7 @@ pnpm dev
 ## 🎯 Common Commands
 
 ### Development
+
 ```bash
 pnpm dev                    # Start dev server (http://localhost:3000)
 pnpm build                  # Build for production
@@ -65,6 +66,7 @@ pnpm preview                # Preview production build
 ```
 
 ### Database
+
 ```bash
 pnpm prisma:migrate         # Run migrations (creates tables)
 pnpm prisma:studio          # Open visual database editor
@@ -72,6 +74,7 @@ pnpm prisma generate        # Regenerate Prisma Client
 ```
 
 ### Maintenance
+
 ```bash
 pnpm install                # Install dependencies
 pnpm update                 # Update dependencies
@@ -79,13 +82,13 @@ pnpm update                 # Update dependencies
 
 ## 🔑 Key Features
 
-| Feature | Location | Description |
-|---------|----------|-------------|
-| Dashboard | `/` | View tax summary, charts, and payslips |
-| Add Payslip | `/payslips` | Enter monthly payslip data |
-| Edit Payslip | `/payslips?edit=<id>` | Update existing payslip |
-| Settings | `/settings` | Configure PTKP status |
-| Tax Calc | Auto | Automatic calculation on dashboard |
+| Feature      | Location              | Description                            |
+| ------------ | --------------------- | -------------------------------------- |
+| Dashboard    | `/`                   | View tax summary, charts, and payslips |
+| Add Payslip  | `/payslips`           | Enter monthly payslip data             |
+| Edit Payslip | `/payslips?edit=<id>` | Update existing payslip                |
+| Settings     | `/settings`           | Configure PTKP status                  |
+| Tax Calc     | Auto                  | Automatic calculation on dashboard     |
 
 ## 📝 Usage Flow
 
@@ -103,6 +106,7 @@ pnpm update                 # Update dependencies
 ## 🗃️ Database Models
 
 ### Payslip
+
 ```
 - id: Unique identifier
 - month: 1-12
@@ -114,6 +118,7 @@ pnpm update                 # Update dependencies
 ```
 
 ### TaxSettings
+
 ```
 - id: Unique identifier
 - ptkpStatus: TK/0, K/1, etc.
@@ -122,36 +127,41 @@ pnpm update                 # Update dependencies
 
 ## 🌐 API Endpoints
 
-| Method | Endpoint | Purpose |
-|--------|----------|---------|
-| GET | `/api/payslips?year=2024` | Get payslips |
-| POST | `/api/payslips` | Create payslip |
-| PUT | `/api/payslips/:id` | Update payslip |
-| DELETE | `/api/payslips/:id` | Delete payslip |
-| POST | `/api/tax/calculate` | Calculate tax |
-| GET | `/api/tax-settings` | Get PTKP settings |
-| PUT | `/api/tax-settings` | Update PTKP |
+| Method | Endpoint                  | Purpose           |
+| ------ | ------------------------- | ----------------- |
+| GET    | `/api/payslips?year=2024` | Get payslips      |
+| POST   | `/api/payslips`           | Create payslip    |
+| PUT    | `/api/payslips/:id`       | Update payslip    |
+| DELETE | `/api/payslips/:id`       | Delete payslip    |
+| POST   | `/api/tax/calculate`      | Calculate tax     |
+| GET    | `/api/tax-settings`       | Get PTKP settings |
+| PUT    | `/api/tax-settings`       | Update PTKP       |
 
 ## 💡 Tips
 
 ### Database Connection
+
 For **NeonDB**:
+
 ```env
 DATABASE_URL="postgresql://user:pass@ep-xxx.region.aws.neon.tech/db?sslmode=require"
 ```
 
 For **Local PostgreSQL**:
+
 ```env
 DATABASE_URL="postgresql://user:pass@localhost:5432/pph21_tax_db"
 ```
 
 ### Development Workflow
+
 1. Make changes to code
 2. Nuxt auto-reloads (hot module replacement)
 3. Test in browser
 4. Commit changes
 
 ### Production Deployment
+
 1. Push to GitHub
 2. Connect to Vercel/Netlify
 3. Add `DATABASE_URL` environment variable
@@ -159,13 +169,13 @@ DATABASE_URL="postgresql://user:pass@localhost:5432/pph21_tax_db"
 
 ## 🐛 Troubleshooting
 
-| Issue | Solution |
-|-------|----------|
-| Port 3000 in use | `PORT=3001 pnpm dev` |
-| Database error | Check `.env` file exists with DATABASE_URL |
-| Prisma error | Run `pnpm prisma generate` |
-| Module not found | Run `pnpm install` |
-| Node version wrong | Run `nvm use v24.13.0` |
+| Issue              | Solution                                   |
+| ------------------ | ------------------------------------------ |
+| Port 3000 in use   | `PORT=3001 pnpm dev`                       |
+| Database error     | Check `.env` file exists with DATABASE_URL |
+| Prisma error       | Run `pnpm prisma generate`                 |
+| Module not found   | Run `pnpm install`                         |
+| Node version wrong | Run `nvm use v24.13.0`                     |
 
 ## 📚 Documentation
 
@@ -176,24 +186,24 @@ DATABASE_URL="postgresql://user:pass@localhost:5432/pph21_tax_db"
 
 ## 💰 Indonesian Tax Rates (2024)
 
-| Annual Income | Tax Rate |
-|---------------|----------|
-| 0 - 60 juta | 5% |
-| 60 - 250 juta | 15% |
-| 250 - 500 juta | 25% |
-| 500 juta - 5 M | 30% |
-| > 5 M | 35% |
+| Annual Income  | Tax Rate |
+| -------------- | -------- |
+| 0 - 60 juta    | 5%       |
+| 60 - 250 juta  | 15%      |
+| 250 - 500 juta | 25%      |
+| 500 juta - 5 M | 30%      |
+| > 5 M          | 35%      |
 
 ## 🎓 PTKP Values (2024)
 
-| Status | Amount |
-|--------|--------|
-| TK/0 | Rp 54.000.000 |
-| TK/1 | Rp 58.500.000 |
-| K/0 | Rp 58.500.000 |
-| K/1 | Rp 63.000.000 |
-| K/2 | Rp 67.500.000 |
-| K/3 | Rp 72.000.000 |
+| Status | Amount        |
+| ------ | ------------- |
+| TK/0   | Rp 54.000.000 |
+| TK/1   | Rp 58.500.000 |
+| K/0    | Rp 58.500.000 |
+| K/1    | Rp 63.000.000 |
+| K/2    | Rp 67.500.000 |
+| K/3    | Rp 72.000.000 |
 
 ## 🎯 Quick Links
 

@@ -28,15 +28,12 @@ const initChart = () => {
   // Sort payslips by month
   const sortedPayslips = [...props.payslips].sort((a, b) => a.month - b.month)
 
-  const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
-    'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
-  ]
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des']
 
-  const labels = sortedPayslips.map(p => months[p.month - 1])
-  const grossData = sortedPayslips.map(p => p.grossSalary)
-  const pph21Data = sortedPayslips.map(p => p.pph21Deducted)
-  const takeHomeData = sortedPayslips.map(p => p.takeHomePay)
+  const labels = sortedPayslips.map((p) => months[p.month - 1])
+  const grossData = sortedPayslips.map((p) => p.grossSalary)
+  const pph21Data = sortedPayslips.map((p) => p.pph21Deducted)
+  const takeHomeData = sortedPayslips.map((p) => p.takeHomePay)
 
   if (chartInstance) {
     chartInstance.destroy()
@@ -79,7 +76,7 @@ const initChart = () => {
         },
         tooltip: {
           callbacks: {
-            label: function(context) {
+            label: function (context) {
               let label = context.dataset.label || ''
               if (label) {
                 label += ': '
@@ -98,7 +95,7 @@ const initChart = () => {
         y: {
           beginAtZero: true,
           ticks: {
-            callback: function(value) {
+            callback: function (value) {
               return new Intl.NumberFormat('id-ID', {
                 style: 'currency',
                 currency: 'IDR',
@@ -113,9 +110,13 @@ const initChart = () => {
   })
 }
 
-watch(() => props.payslips, () => {
-  nextTick(() => initChart())
-}, { deep: true })
+watch(
+  () => props.payslips,
+  () => {
+    nextTick(() => initChart())
+  },
+  { deep: true }
+)
 
 onMounted(() => {
   nextTick(() => initChart())

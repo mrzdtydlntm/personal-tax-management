@@ -27,12 +27,14 @@ model User {
 ```
 
 **Updated `Payslip` model:**
+
 - Added `userId` foreign key
 - Unique constraint changed from `@@unique([month, year])` → `@@unique([userId, month, year])`
 - Index changed from `@@index([year])` → `@@index([userId, year])`
 - Added `onDelete: Cascade` — deleting a user removes all their payslips
 
 **Updated `TaxSettings` model:**
+
 - Added `userId` foreign key (one-to-one per user)
 - Replaced singleton pattern with per-user settings
 - Added `onDelete: Cascade`
@@ -48,27 +50,23 @@ Passwords are hashed using **HMAC-SHA512** via Node.js `crypto` module.
 import crypto from 'crypto'
 
 export function hashPassword(password: string): string {
-  return crypto
-    .createHmac('sha512', HASH_SECRET)
-    .update(password)
-    .digest('hex')
+  return crypto.createHmac('sha512', HASH_SECRET).update(password).digest('hex')
 }
 
 export function verifyPassword(password: string, hash: string): boolean {
   const inputHash = hashPassword(password)
-  return crypto.timingSafeEqual(
-    Buffer.from(inputHash, 'hex'),
-    Buffer.from(hash, 'hex')
-  )
+  return crypto.timingSafeEqual(Buffer.from(inputHash, 'hex'), Buffer.from(hash, 'hex'))
 }
 ```
 
 **Key details:**
+
 - Uses `HASH_SECRET` env variable as the HMAC key (falls back to `JWT_SECRET`)
 - `timingSafeEqual` prevents timing-based attacks during comparison
 - Digest output is a 128-character hex string
 
 **Required environment variable:**
+
 ```env
 HASH_SECRET="your-separate-hmac-secret-key-here"
 ```
@@ -82,7 +80,7 @@ JWT tokens are now signed with **HS512** (HMAC-SHA512) instead of the default HS
 ```typescript
 export function generateToken(payload: Omit<JWTPayload, 'iat' | 'exp'>): string {
   return jwt.sign(payload, JWT_SECRET, {
-    algorithm: 'HS512',   // <-- upgraded from HS256
+    algorithm: 'HS512', // <-- upgraded from HS256
     expiresIn: '7d'
   })
 }
@@ -93,13 +91,14 @@ export function verifyToken(token: string): JWTPayload | null {
 ```
 
 **JWT Payload structure:**
+
 ```typescript
 interface JWTPayload {
   userId: string
   username: string
   email: string
-  iat: number   // issued at
-  exp: number   // expiry (7 days)
+  iat: number // issued at
+  exp: number // expiry (7 days)
 }
 ```
 
@@ -112,6 +111,7 @@ interface JWTPayload {
 Create a new user account.
 
 **Request:**
+
 ```json
 {
   "username": "johndoe",
@@ -121,6 +121,7 @@ Create a new user account.
 ```
 
 **Response (201):**
+
 ```json
 {
   "success": true,
@@ -134,6 +135,7 @@ Create a new user account.
 ```
 
 **Validations:**
+
 - All fields required
 - Password minimum 8 characters
 - Username must be unique
@@ -145,6 +147,7 @@ Create a new user account.
 #### `POST /api/auth/login`
 
 **Request (updated — now uses email instead of password only):**
+
 ```json
 {
   "email": "john@example.com",
@@ -153,6 +156,7 @@ Create a new user account.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -170,6 +174,7 @@ Create a new user account.
 #### `GET /api/auth/check`
 
 **Response (updated — now returns user info):**
+
 ```json
 {
   "authenticated": true,
@@ -190,10 +195,10 @@ All data endpoints now extract `userId` from the JWT token and scope all queries
 ```typescript
 // Example: GET /api/payslips
 export default defineEventHandler(async (event) => {
-  const { userId } = requireAuth(event)   // throws 401 if not authenticated
+  const { userId } = requireAuth(event) // throws 401 if not authenticated
 
   const payslips = await prisma.payslip.findMany({
-    where: { userId, year },   // scoped to user
+    where: { userId, year }, // scoped to user
     orderBy: { month: 'asc' }
   })
 
@@ -219,6 +224,7 @@ This prevents users from accessing or modifying other users' data.
 ### 6. New Pages
 
 #### `/register` — Registration Page
+
 - Username, email, password, confirm password fields
 - Real-time password strength indicator (Lemah / Cukup / Baik / Kuat)
 - Password confirmation validation
@@ -226,6 +232,7 @@ This prevents users from accessing or modifying other users' data.
 - Redirects to dashboard on success
 
 #### `/login` — Updated Login Page
+
 - Now accepts **email + password** (previously single password)
 - Link to `/register` for new users
 
@@ -253,6 +260,7 @@ pnpm prisma:migrate
 ### Existing Installation
 
 If you have existing data, the migration will:
+
 1. Create the `User` table
 2. Add `userId` column to `Payslip` and `TaxSettings`
 3. Drop the old single-password `APP_PASSWORD` usage
@@ -285,6 +293,7 @@ HASH_SECRET="another-separate-secret-key"
 ```
 
 Generate secure secrets:
+
 ```bash
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
@@ -293,34 +302,34 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 ## Security Summary
 
-| Feature | Before | After |
-|---------|--------|-------|
-| Auth model | Single password | Per-user (username/email/password) |
-| Password storage | Plain env var | HMAC-SHA512 hashed in database |
-| JWT algorithm | HS256 | **HS512** |
-| Data isolation | None | Per-user (userId scoping) |
-| Ownership checks | None | Verified on all mutations |
-| Timing-safe compare | No | Yes (`timingSafeEqual`) |
-| Password strength | N/A | Visual indicator on register |
-| Token payload | `{ authenticated }` | `{ userId, username, email }` |
+| Feature             | Before              | After                              |
+| ------------------- | ------------------- | ---------------------------------- |
+| Auth model          | Single password     | Per-user (username/email/password) |
+| Password storage    | Plain env var       | HMAC-SHA512 hashed in database     |
+| JWT algorithm       | HS256               | **HS512**                          |
+| Data isolation      | None                | Per-user (userId scoping)          |
+| Ownership checks    | None                | Verified on all mutations          |
+| Timing-safe compare | No                  | Yes (`timingSafeEqual`)            |
+| Password strength   | N/A                 | Visual indicator on register       |
+| Token payload       | `{ authenticated }` | `{ userId, username, email }`      |
 
 ---
 
 ## File Changes Summary
 
-| File | Change |
-|------|--------|
-| `prisma/schema.prisma` | Added `User`, updated `Payslip`/`TaxSettings` |
-| `server/utils/auth.ts` | HMAC-SHA512 hashing, HS512 JWT, `requireAuth` returns user |
-| `server/api/auth/login.post.ts` | Accepts email+password, queries DB |
-| `server/api/auth/register.post.ts` | **New** — creates user account |
-| `server/api/auth/check.get.ts` | Returns user info in response |
-| `server/api/auth/logout.post.ts` | Unchanged |
-| `server/api/payslips/*.ts` | All scoped to `userId` from JWT |
-| `server/api/tax-settings/*.ts` | All scoped to `userId` from JWT |
-| `server/api/tax/calculate.post.ts` | Scoped to `userId` from JWT |
-| `server/middleware/auth.ts` | Added `/api/auth/register` to public paths |
-| `middleware/auth.global.ts` | Added `/register` to public routes |
-| `pages/login.vue` | Updated to email+password form |
-| `pages/register.vue` | **New** — registration form |
-| `layouts/default.vue` | Shows logged-in user avatar + username |
+| File                               | Change                                                     |
+| ---------------------------------- | ---------------------------------------------------------- |
+| `prisma/schema.prisma`             | Added `User`, updated `Payslip`/`TaxSettings`              |
+| `server/utils/auth.ts`             | HMAC-SHA512 hashing, HS512 JWT, `requireAuth` returns user |
+| `server/api/auth/login.post.ts`    | Accepts email+password, queries DB                         |
+| `server/api/auth/register.post.ts` | **New** — creates user account                             |
+| `server/api/auth/check.get.ts`     | Returns user info in response                              |
+| `server/api/auth/logout.post.ts`   | Unchanged                                                  |
+| `server/api/payslips/*.ts`         | All scoped to `userId` from JWT                            |
+| `server/api/tax-settings/*.ts`     | All scoped to `userId` from JWT                            |
+| `server/api/tax/calculate.post.ts` | Scoped to `userId` from JWT                                |
+| `server/middleware/auth.ts`        | Added `/api/auth/register` to public paths                 |
+| `middleware/auth.global.ts`        | Added `/register` to public routes                         |
+| `pages/login.vue`                  | Updated to email+password form                             |
+| `pages/register.vue`               | **New** — registration form                                |
+| `layouts/default.vue`              | Shows logged-in user avatar + username                     |

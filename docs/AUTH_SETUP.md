@@ -53,6 +53,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 Choose a strong password and set it in `APP_PASSWORD`. This is the password users will enter to access the application.
 
 **Example:**
+
 ```env
 APP_PASSWORD="MySecure2024Password!"
 ```
@@ -101,7 +102,9 @@ pnpm dev
 ## 🔑 API Endpoints
 
 ### POST `/api/auth/login`
+
 **Request:**
+
 ```json
 {
   "password": "YourSecurePasswordHere123!"
@@ -109,6 +112,7 @@ pnpm dev
 ```
 
 **Response (Success):**
+
 ```json
 {
   "success": true,
@@ -118,6 +122,7 @@ pnpm dev
 ```
 
 **Response (Error):**
+
 ```json
 {
   "statusCode": 401,
@@ -126,7 +131,9 @@ pnpm dev
 ```
 
 ### POST `/api/auth/logout`
+
 **Response:**
+
 ```json
 {
   "success": true,
@@ -135,7 +142,9 @@ pnpm dev
 ```
 
 ### GET `/api/auth/check`
+
 **Response:**
+
 ```json
 {
   "authenticated": true
@@ -145,26 +154,32 @@ pnpm dev
 ## 🛡️ Security Features
 
 ### 1. HTTP-Only Cookies
+
 - Token stored in cookie that JavaScript cannot access
 - Prevents XSS attacks from stealing tokens
 
 ### 2. Secure Flag (Production)
+
 - Cookies only sent over HTTPS in production
 - Prevents man-in-the-middle attacks
 
 ### 3. SameSite Protection
+
 - `SameSite: strict` prevents CSRF attacks
 - Cookie only sent from same domain
 
 ### 4. Token Expiration
+
 - Tokens expire after 7 days
 - Users must re-login after expiration
 
 ### 5. Server-Side Validation
+
 - All API routes check authentication
 - Middleware protects all endpoints
 
 ### 6. Global Route Protection
+
 - Frontend middleware redirects unauthenticated users
 - Cannot bypass by URL manipulation
 
@@ -241,6 +256,7 @@ Currently single password. To add multiple users:
 ### "Invalid password" but password is correct
 
 **Solution:** Check `.env` file:
+
 - Ensure `APP_PASSWORD` is set
 - No extra spaces or quotes
 - Restart dev server after changing
@@ -248,6 +264,7 @@ Currently single password. To add multiple users:
 ### Infinite redirect loop
 
 **Solution:**
+
 - Check `JWT_SECRET` is set in `.env`
 - Clear browser cookies
 - Check browser console for errors
@@ -255,6 +272,7 @@ Currently single password. To add multiple users:
 ### Cookie not being set
 
 **Solution:**
+
 - Check `NODE_ENV` setting
 - In production, ensure `secure: true` and HTTPS
 - Check browser allows cookies
@@ -262,6 +280,7 @@ Currently single password. To add multiple users:
 ### Token expired
 
 **Solution:**
+
 - Normal after 7 days
 - Just login again
 - To extend, change `expiresIn` in auth.ts
@@ -269,12 +288,14 @@ Currently single password. To add multiple users:
 ## 📊 Testing
 
 ### Test Login
+
 1. Visit `http://localhost:3000`
 2. Should redirect to `/login`
 3. Enter password from `.env`
 4. Should redirect to dashboard
 
 ### Test Protected Routes
+
 1. After login, visit any page
 2. Should work normally
 3. Logout
@@ -282,6 +303,7 @@ Currently single password. To add multiple users:
 5. Should redirect to login
 
 ### Test API Protection
+
 ```bash
 # Without auth - should fail
 curl http://localhost:3000/api/payslips
@@ -292,6 +314,7 @@ curl http://localhost:3000/api/payslips \
 ```
 
 ### Test Logout
+
 1. Login to application
 2. Click "Logout" button
 3. Should redirect to login
@@ -348,6 +371,7 @@ DATABASE_URL="postgresql://..."
 ## 📱 Mobile Access
 
 The login page is fully responsive:
+
 - Works on phones and tablets
 - Touch-friendly inputs
 - Proper viewport scaling

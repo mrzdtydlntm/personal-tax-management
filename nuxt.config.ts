@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   runtimeConfig: {
     public: {
-      gtagId: process.env.NUXT_PUBLIC_GTAG_ID || '',
+      gtagId: process.env.NUXT_PUBLIC_GTAG_ID || ''
     }
   },
   app: {

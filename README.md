@@ -164,28 +164,28 @@ model TaxSettings {
 
 The application uses the following tax brackets:
 
-| Annual Taxable Income | Tax Rate |
-|----------------------|----------|
-| 0 - Rp 60,000,000 | 5% |
-| Rp 60,000,000 - Rp 250,000,000 | 15% |
-| Rp 250,000,000 - Rp 500,000,000 | 25% |
-| Rp 500,000,000 - Rp 5,000,000,000 | 30% |
-| Above Rp 5,000,000,000 | 35% |
+| Annual Taxable Income             | Tax Rate |
+| --------------------------------- | -------- |
+| 0 - Rp 60,000,000                 | 5%       |
+| Rp 60,000,000 - Rp 250,000,000    | 15%      |
+| Rp 250,000,000 - Rp 500,000,000   | 25%      |
+| Rp 500,000,000 - Rp 5,000,000,000 | 30%      |
+| Above Rp 5,000,000,000            | 35%      |
 
 ### PTKP Values (2024)
 
 PTKP (Penghasilan Tidak Kena Pajak) - Non-Taxable Income:
 
-| Status | Description | PTKP Amount |
-|--------|-------------|-------------|
-| TK/0 | Single, 0 dependents | Rp 54,000,000 |
-| TK/1 | Single, 1 dependent | Rp 58,500,000 |
-| TK/2 | Single, 2 dependents | Rp 63,000,000 |
-| TK/3 | Single, 3 dependents | Rp 67,500,000 |
-| K/0 | Married, 0 dependents | Rp 58,500,000 |
-| K/1 | Married, 1 dependent | Rp 63,000,000 |
-| K/2 | Married, 2 dependents | Rp 67,500,000 |
-| K/3 | Married, 3 dependents | Rp 72,000,000 |
+| Status | Description           | PTKP Amount   |
+| ------ | --------------------- | ------------- |
+| TK/0   | Single, 0 dependents  | Rp 54,000,000 |
+| TK/1   | Single, 1 dependent   | Rp 58,500,000 |
+| TK/2   | Single, 2 dependents  | Rp 63,000,000 |
+| TK/3   | Single, 3 dependents  | Rp 67,500,000 |
+| K/0    | Married, 0 dependents | Rp 58,500,000 |
+| K/1    | Married, 1 dependent  | Rp 63,000,000 |
+| K/2    | Married, 2 dependents | Rp 67,500,000 |
+| K/3    | Married, 3 dependents | Rp 72,000,000 |
 
 ## 🧮 Tax Calculation Logic
 
@@ -255,11 +255,13 @@ Difference (Refund):         = Rp   600,000
 - **TaxChart**: Visualizes monthly data using Chart.js
 
 **State Management**: Uses Vue's reactive state and composables:
+
 - `ref()` for reactive data
 - `computed()` for derived state
 - `watch()` for reactive updates
 
 **Routing**: Nuxt's file-based routing:
+
 - `/` - Dashboard
 - `/payslips` - Payslip management
 - `/settings` - PTKP configuration
@@ -294,6 +296,7 @@ server/api/
    - `calculateMonthlyProjection()`: Projects year-end tax
 
 **Data Flow**:
+
 ```
 User Input → Vue Component → API Route → Prisma ORM → PostgreSQL
                                 ↓
@@ -315,6 +318,7 @@ User Input → Vue Component → API Route → Prisma ORM → PostgreSQL
    - Updated infrequently
 
 **Query Optimization**:
+
 - Indexed year field for fast filtering
 - Unique constraint prevents duplicate entries
 - Minimal joins for better performance
@@ -348,12 +352,14 @@ pnpm preview
 ### Deploy to Other Platforms
 
 The application can be deployed to any platform that supports Node.js:
+
 - Netlify
 - Railway
 - Render
 - DigitalOcean App Platform
 
 Make sure to:
+
 1. Set `DATABASE_URL` environment variable
 2. Run `pnpm prisma generate` in build step
 3. Run `pnpm prisma migrate deploy` for production migrations

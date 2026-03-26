@@ -2,9 +2,7 @@
   <div class="card">
     <h3 class="text-lg font-semibold mb-4">Ringkasan Pajak {{ year }}</h3>
 
-    <div v-if="loading" class="text-center py-8 text-gray-500">
-      Memuat data...
-    </div>
+    <div v-if="loading" class="text-center py-8 text-gray-500">Memuat data...</div>
 
     <div v-else-if="error" class="text-center py-8 text-red-500">
       {{ error }}
@@ -47,26 +45,11 @@
           </div>
         </div>
 
-        <div
-          :class="[
-            'p-4 rounded-lg',
-            taxData.status === 'REFUND' ? 'bg-green-50' : 'bg-red-50'
-          ]"
-        >
-          <div
-            :class="[
-              'text-sm font-medium',
-              taxData.status === 'REFUND' ? 'text-green-600' : 'text-red-600'
-            ]"
-          >
+        <div :class="['p-4 rounded-lg', taxData.status === 'REFUND' ? 'bg-green-50' : 'bg-red-50']">
+          <div :class="['text-sm font-medium', taxData.status === 'REFUND' ? 'text-green-600' : 'text-red-600']">
             {{ taxData.status === 'REFUND' ? 'Lebih Bayar (Refund)' : 'Kurang Bayar' }}
           </div>
-          <div
-            :class="[
-              'text-2xl font-bold mt-1',
-              taxData.status === 'REFUND' ? 'text-green-900' : 'text-red-900'
-            ]"
-          >
+          <div :class="['text-2xl font-bold mt-1', taxData.status === 'REFUND' ? 'text-green-900' : 'text-red-900']">
             {{ formatCurrency(Math.abs(taxData.difference)) }}
           </div>
         </div>
@@ -75,15 +58,11 @@
       <div class="border-t pt-4">
         <div class="flex justify-between items-center text-sm">
           <span class="text-gray-600">Effective Tax Rate:</span>
-          <span class="font-semibold text-gray-900">
-            {{ taxData.effectiveTaxRate.toFixed(2) }}%
-          </span>
+          <span class="font-semibold text-gray-900">{{ taxData.effectiveTaxRate.toFixed(2) }}%</span>
         </div>
         <div class="flex justify-between items-center text-sm mt-2">
           <span class="text-gray-600">Data dari:</span>
-          <span class="font-semibold text-gray-900">
-            {{ taxData.payslipsCount }} bulan payslip
-          </span>
+          <span class="font-semibold text-gray-900">{{ taxData.payslipsCount }} bulan payslip</span>
         </div>
       </div>
 
@@ -103,18 +82,14 @@
               {{ formatCurrency(taxData.projection.projectedAnnualPph21) }}
             </span>
           </div>
-          <div class="text-xs text-indigo-600 mt-2">
-            * Berdasarkan rata-rata {{ taxData.payslipsCount }} bulan data
-          </div>
+          <div class="text-xs text-indigo-600 mt-2">* Berdasarkan rata-rata {{ taxData.payslipsCount }} bulan data</div>
         </div>
       </div>
 
-      <div
-        v-if="taxData.status === 'REFUND'"
-        class="bg-green-50 border border-green-200 p-4 rounded-lg"
-      >
+      <div v-if="taxData.status === 'REFUND'" class="bg-green-50 border border-green-200 p-4 rounded-lg">
         <p class="text-sm text-green-800">
-          <strong>Selamat!</strong> Anda berpotensi mendapatkan refund pajak sebesar
+          <strong>Selamat!</strong>
+          Anda berpotensi mendapatkan refund pajak sebesar
           <strong>{{ formatCurrency(Math.abs(taxData.difference)) }}</strong>
           dari SPT Tahunan Anda.
         </p>
@@ -122,16 +97,15 @@
 
       <div v-else-if="taxData.status === 'ADDITIONAL_PAYMENT'" class="bg-red-50 border border-red-200 p-4 rounded-lg">
         <p class="text-sm text-red-800">
-          <strong>Perhatian!</strong> Anda perlu membayar pajak tambahan sebesar
+          <strong>Perhatian!</strong>
+          Anda perlu membayar pajak tambahan sebesar
           <strong>{{ formatCurrency(Math.abs(taxData.difference)) }}</strong>
           saat pelaporan SPT Tahunan.
         </p>
       </div>
 
       <div v-else class="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-        <p class="text-sm text-blue-800">
-          Pembayaran pajak Anda sudah sesuai dengan kewajiban pajak tahunan.
-        </p>
+        <p class="text-sm text-blue-800">Pembayaran pajak Anda sudah sesuai dengan kewajiban pajak tahunan.</p>
       </div>
     </div>
   </div>

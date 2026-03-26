@@ -1,37 +1,19 @@
 <template>
   <Teleport to="body">
     <Transition name="modal">
-      <div
-        v-if="isOpen"
-        class="fixed inset-0 z-50 overflow-y-auto"
-        @click.self="handleCancel"
-      >
+      <div v-if="isOpen" class="fixed inset-0 z-50 overflow-y-auto" @click.self="handleCancel">
         <!-- Backdrop -->
         <div class="fixed inset-0 bg-black/50 transition-opacity"></div>
 
         <!-- Modal Container -->
         <div class="flex min-h-full items-center justify-center p-4">
-          <div
-            class="relative bg-white rounded-lg shadow-xl max-w-md w-full transform transition-all"
-            @click.stop
-          >
+          <div class="relative bg-white rounded-lg shadow-xl max-w-md w-full transform transition-all" @click.stop>
             <!-- Header -->
             <div class="px-6 pt-6 pb-4">
               <div class="flex items-start gap-4">
                 <!-- Icon -->
-                <div
-                  :class="[
-                    'flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center',
-                    iconColorClass
-                  ]"
-                >
-                  <svg
-                    v-if="type === 'danger'"
-                    class="w-6 h-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
+                <div :class="['flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center', iconColorClass]">
+                  <svg v-if="type === 'danger'" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -67,13 +49,7 @@
                       d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                     />
                   </svg>
-                  <svg
-                    v-else
-                    class="w-6 h-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
+                  <svg v-else class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -97,20 +73,12 @@
 
             <!-- Footer -->
             <div class="px-6 py-4 bg-gray-50 rounded-b-lg flex gap-3 justify-end">
-              <button
-                v-if="showCancel"
-                type="button"
-                class="btn btn-secondary"
-                @click="handleCancel"
-              >
+              <button v-if="showCancel" type="button" class="btn btn-secondary" @click="handleCancel">
                 {{ cancelText }}
               </button>
               <button
                 type="button"
-                :class="[
-                  'btn',
-                  type === 'danger' ? 'btn-danger' : 'btn-primary'
-                ]"
+                :class="['btn', type === 'danger' ? 'btn-danger' : 'btn-primary']"
                 @click="handleConfirm"
                 :disabled="loading"
               >
@@ -214,7 +182,9 @@ onUnmounted(() => {
 
 .modal-enter-active .relative,
 .modal-leave-active .relative {
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
 }
 
 .modal-enter-from .relative,
