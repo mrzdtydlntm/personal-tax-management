@@ -17,10 +17,10 @@
       <TaxSummaryCard ref="taxSummary" :year="selectedYear" :ptkp-status="ptkpStatus" />
 
       <!-- Chart -->
-      <TaxChart v-if="payslips.length > 0" :payslips="payslips" />
+      <TaxChart v-if="loading || payslips.length > 0" :payslips="payslips" :loading="loading" />
 
       <!-- Payslip List -->
-      <PayslipList :payslips="payslips" :year="selectedYear" @refresh="fetchData" @edit="handleEdit" />
+      <PayslipList :payslips="payslips" :year="selectedYear" :loading="loading" @refresh="fetchData" @edit="handleEdit" />
 
       <!-- Tax Brackets Info -->
       <div class="card">
@@ -67,6 +67,7 @@ const selectedYear = ref(new Date().getFullYear())
 const payslips = ref([])
 const ptkpStatus = ref('TK/0')
 const taxSummary = ref(null)
+const loading = ref(false)
 
 const years = computed(() => {
   const currentYear = new Date().getFullYear()
@@ -74,27 +75,25 @@ const years = computed(() => {
 })
 
 const fetchData = async () => {
+  loading.value = true
   try {
     const timestamp = Date.now()
     const [payslipsData, settings] = await Promise.all([
-      $fetch(`/api/payslips?year=${selectedYear.value}&_=${timestamp}`, {
-        cache: 'no-cache'
-      }),
-      $fetch(`/api/tax-settings?_=${timestamp}`, {
-        cache: 'no-cache'
-      })
+      $fetch(`/api/payslips?year=${selectedYear.value}&_=${timestamp}`, { cache: 'no-cache' }),
+      $fetch(`/api/tax-settings?_=${timestamp}`, { cache: 'no-cache' })
     ])
 
     payslips.value = payslipsData
     ptkpStatus.value = settings.ptkpStatus
 
-    // Refresh tax summary
     if (taxSummary.value) {
       await nextTick()
       taxSummary.value.refresh()
     }
   } catch (e) {
     console.error('Failed to fetch data:', e)
+  } finally {
+    loading.value = false
   }
 }
 

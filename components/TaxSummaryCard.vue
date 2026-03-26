@@ -2,7 +2,19 @@
   <div class="card">
     <h3 class="text-lg font-semibold mb-4">Ringkasan Pajak {{ year }}</h3>
 
-    <div v-if="loading" class="text-center py-8 text-gray-500">Memuat data...</div>
+    <!-- Skeleton loading -->
+    <div v-if="loading" class="animate-pulse space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div v-for="i in 6" :key="i" class="p-4 bg-gray-100 rounded-lg">
+          <div class="h-3 bg-gray-200 rounded w-2/3 mb-3"></div>
+          <div class="h-7 bg-gray-200 rounded w-3/4"></div>
+        </div>
+      </div>
+      <div class="border-t pt-4 space-y-3">
+        <div class="flex justify-between"><div class="h-3 bg-gray-200 rounded w-32"></div><div class="h-3 bg-gray-200 rounded w-16"></div></div>
+        <div class="flex justify-between"><div class="h-3 bg-gray-200 rounded w-24"></div><div class="h-3 bg-gray-200 rounded w-20"></div></div>
+      </div>
+    </div>
 
     <div v-else-if="error" class="text-center py-8 text-red-500">
       {{ error }}

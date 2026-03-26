@@ -2,7 +2,35 @@
   <div class="card">
     <h3 class="text-lg font-semibold mb-4">Daftar Payslip {{ year }}</h3>
 
-    <div v-if="payslips.length === 0" class="text-center py-8 text-gray-500">
+    <!-- Skeleton loading -->
+    <div v-if="loading" class="animate-pulse overflow-x-auto">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3"><div class="h-3 bg-gray-200 rounded w-12"></div></th>
+            <th class="px-6 py-3"><div class="h-3 bg-gray-200 rounded w-20 ml-auto"></div></th>
+            <th class="px-6 py-3"><div class="h-3 bg-gray-200 rounded w-12 ml-auto"></div></th>
+            <th class="px-6 py-3"><div class="h-3 bg-gray-200 rounded w-24 ml-auto"></div></th>
+            <th class="px-6 py-3"><div class="h-3 bg-gray-200 rounded w-20 ml-auto"></div></th>
+            <th class="px-6 py-3"><div class="h-3 bg-gray-200 rounded w-8 mx-auto"></div></th>
+            <th class="px-6 py-3"><div class="h-3 bg-gray-200 rounded w-10 ml-auto"></div></th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr v-for="i in 5" :key="i">
+            <td class="px-6 py-4"><div class="h-4 bg-gray-200 rounded w-20"></div></td>
+            <td class="px-6 py-4"><div class="h-4 bg-gray-200 rounded w-28 ml-auto"></div></td>
+            <td class="px-6 py-4"><div class="h-4 bg-gray-200 rounded w-24 ml-auto"></div></td>
+            <td class="px-6 py-4"><div class="h-4 bg-gray-200 rounded w-24 ml-auto"></div></td>
+            <td class="px-6 py-4"><div class="h-4 bg-gray-200 rounded w-28 ml-auto"></div></td>
+            <td class="px-6 py-4"><div class="h-4 bg-gray-200 rounded w-8 mx-auto"></div></td>
+            <td class="px-6 py-4"><div class="h-4 bg-gray-200 rounded w-16 ml-auto"></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div v-else-if="payslips.length === 0" class="text-center py-8 text-gray-500">
       Belum ada data payslip untuk tahun ini
     </div>
 
@@ -119,6 +147,10 @@ const props = defineProps({
   year: {
     type: Number,
     required: true
+  },
+  loading: {
+    type: Boolean,
+    default: false
   }
 })
 
