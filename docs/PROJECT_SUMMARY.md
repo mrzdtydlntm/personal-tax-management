@@ -51,6 +51,7 @@ A comprehensive Indonesian tax management application built with Nuxt 3 fullstac
 ## 🚀 Key Features
 
 ### Tax Calculation
+
 - ✅ Automatic calculation based on Indonesian 2024 tax law
 - ✅ Progressive tax rates (5 brackets)
 - ✅ PTKP (Non-Taxable Income) support (8 statuses)
@@ -59,6 +60,7 @@ A comprehensive Indonesian tax management application built with Nuxt 3 fullstac
 - ✅ Year-end projection for incomplete years
 
 ### Data Management
+
 - ✅ Monthly payslip tracking
 - ✅ Gross salary recording
 - ✅ PPh21 deduction tracking
@@ -68,12 +70,14 @@ A comprehensive Indonesian tax management application built with Nuxt 3 fullstac
 - ✅ Edit and delete capabilities
 
 ### Visualization
+
 - ✅ Interactive bar charts (Chart.js)
 - ✅ Monthly breakdown display
 - ✅ Color-coded status indicators
 - ✅ Responsive design for all devices
 
 ### User Experience
+
 - ✅ Intuitive navigation
 - ✅ Indonesian language interface
 - ✅ Currency formatting (IDR)
@@ -84,6 +88,7 @@ A comprehensive Indonesian tax management application built with Nuxt 3 fullstac
 ## 📊 Technical Achievements
 
 ### Code Quality
+
 - ✅ TypeScript for type safety
 - ✅ Component-based architecture
 - ✅ RESTful API design
@@ -91,18 +96,21 @@ A comprehensive Indonesian tax management application built with Nuxt 3 fullstac
 - ✅ Comprehensive documentation
 
 ### Performance
+
 - ✅ Database indexing for fast queries
 - ✅ Efficient queries (no N+1 problems)
 - ✅ Optimized component rendering
 - ✅ TailwindCSS with JIT compilation
 
 ### Security
+
 - ✅ SQL injection prevention (Prisma)
 - ✅ Input validation
 - ✅ Environment variable protection
 - ✅ Error message sanitization
 
 ### Scalability
+
 - ✅ PostgreSQL production database
 - ✅ NeonDB compatibility
 - ✅ Connection pooling ready
@@ -141,17 +149,17 @@ A comprehensive Indonesian tax management application built with Nuxt 3 fullstac
 
 ## 🛠️ Technology Stack
 
-| Category | Technology | Version |
-|----------|-----------|---------|
-| Framework | Nuxt | 3.21.1 |
-| UI Library | Vue | 3.5.29 |
-| Language | TypeScript | Latest |
-| Styling | TailwindCSS | 6.14.0 |
-| Charts | Chart.js | 4.5.1 |
-| Database | PostgreSQL | Compatible |
-| ORM | Prisma | 6.19.2 |
-| Runtime | Node.js | 24.13.0 |
-| Package Manager | pnpm | 10.30.2 |
+| Category        | Technology  | Version    |
+| --------------- | ----------- | ---------- |
+| Framework       | Nuxt        | 3.21.1     |
+| UI Library      | Vue         | 3.5.29     |
+| Language        | TypeScript  | Latest     |
+| Styling         | TailwindCSS | 6.14.0     |
+| Charts          | Chart.js    | 4.5.1      |
+| Database        | PostgreSQL  | Compatible |
+| ORM             | Prisma      | 6.19.2     |
+| Runtime         | Node.js     | 24.13.0    |
+| Package Manager | pnpm        | 10.30.2    |
 
 ## 📁 Project Structure Summary
 
@@ -189,6 +197,7 @@ pph21-tax-manager/
 ## 🎓 Indonesian Tax Features
 
 ### PTKP Support (8 Statuses)
+
 - TK/0 - Single, 0 dependents (Rp 54,000,000)
 - TK/1 - Single, 1 dependent (Rp 58,500,000)
 - TK/2 - Single, 2 dependents (Rp 63,000,000)
@@ -199,6 +208,7 @@ pph21-tax-manager/
 - K/3 - Married, 3 dependents (Rp 72,000,000)
 
 ### Progressive Tax Brackets (2024)
+
 - 0 - 60 million: 5%
 - 60 - 250 million: 15%
 - 250 - 500 million: 25%
@@ -208,6 +218,7 @@ pph21-tax-manager/
 ## ✨ Next Steps for User
 
 ### 1. Setup Database
+
 ```bash
 # Create .env file
 cp .env.example .env
@@ -217,6 +228,7 @@ cp .env.example .env
 ```
 
 ### 2. Run Migrations
+
 ```bash
 # Generate Prisma Client
 pnpm prisma generate
@@ -226,6 +238,7 @@ pnpm prisma:migrate
 ```
 
 ### 3. Start Development
+
 ```bash
 # Start dev server
 pnpm dev
@@ -234,6 +247,7 @@ pnpm dev
 ```
 
 ### 4. Configure Application
+
 1. Go to Settings page
 2. Set your PTKP status
 3. Add your first payslip
@@ -242,18 +256,21 @@ pnpm dev
 ## 🔮 Potential Future Enhancements
 
 ### Short-term
+
 - [ ] Export to Excel/PDF
 - [ ] Data import from CSV
 - [ ] Dark mode theme
 - [ ] Mobile app (PWA)
 
 ### Medium-term
+
 - [ ] Multi-user support with auth
 - [ ] Email notifications
 - [ ] Reminder for monthly input
 - [ ] Comparison with previous years
 
 ### Long-term
+
 - [ ] AI-powered tax optimization tips
 - [ ] Integration with payroll systems
 - [ ] SPT form auto-fill
@@ -272,6 +289,7 @@ pnpm dev
 ## 🎉 Success Criteria Met
 
 ✅ **Functional Requirements**
+
 - Monthly payslip tracking
 - PPh21 tax calculation
 - Indonesian tax compliance (2024)
@@ -279,6 +297,7 @@ pnpm dev
 - Data persistence (PostgreSQL)
 
 ✅ **Technical Requirements**
+
 - Nuxt 3 fullstack
 - PostgreSQL database
 - NeonDB compatibility
@@ -286,6 +305,7 @@ pnpm dev
 - Node.js 24.13.0
 
 ✅ **Documentation Requirements**
+
 - Comprehensive README
 - Architecture documentation
 - Setup guide
@@ -293,6 +313,7 @@ pnpm dev
 - API documentation
 
 ✅ **Code Quality**
+
 - Clean architecture
 - Type safety (TypeScript)
 - Reusable components
@@ -302,6 +323,7 @@ pnpm dev
 ## 🙏 Acknowledgments
 
 Built with:
+
 - Vue.js team for the amazing framework
 - Nuxt team for the excellent fullstack solution
 - Prisma team for the best ORM
@@ -311,6 +333,7 @@ Built with:
 ## 📞 Support
 
 For issues or questions:
+
 1. Check SETUP.md for common issues
 2. Review ARCHITECTURE.md for understanding
 3. Read README.md for detailed docs

@@ -3,6 +3,7 @@
 ## Prerequisites
 
 Make sure you have:
+
 - Node.js v24.13.0 installed via nvm
 - pnpm installed globally
 - PostgreSQL database (NeonDB or local)
@@ -20,11 +21,13 @@ cp .env.example .env
 Then edit `.env` and add your database connection string:
 
 For **NeonDB**:
+
 ```env
 DATABASE_URL="postgresql://username:password@ep-xxx.region.aws.neon.tech/dbname?sslmode=require"
 ```
 
 For **Local PostgreSQL**:
+
 ```env
 DATABASE_URL="postgresql://user:password@localhost:5432/pph21_tax_db"
 ```
@@ -85,16 +88,21 @@ pnpm prisma:studio          # View and edit database visually
 ## Common Issues
 
 ### Issue: "Environment variable not found: DATABASE_URL"
+
 **Solution**: Make sure you created the `.env` file with DATABASE_URL
 
 ### Issue: Prisma migration fails
+
 **Solution**:
+
 1. Check your DATABASE_URL is correct
 2. Make sure PostgreSQL is running
 3. Ensure the database exists and is accessible
 
 ### Issue: Port 3000 already in use
+
 **Solution**: Kill the process using port 3000 or change the port:
+
 ```bash
 PORT=3001 pnpm dev
 ```
@@ -125,6 +133,7 @@ pnpm prisma migrate reset
 ## Production Deployment
 
 See the main README.md for detailed deployment instructions to:
+
 - Vercel
 - Netlify
 - Railway

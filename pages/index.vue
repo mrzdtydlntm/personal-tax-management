@@ -14,22 +14,13 @@
       </div>
 
       <!-- Tax Summary -->
-      <TaxSummaryCard
-        ref="taxSummary"
-        :year="selectedYear"
-        :ptkp-status="ptkpStatus"
-      />
+      <TaxSummaryCard ref="taxSummary" :year="selectedYear" :ptkp-status="ptkpStatus" />
 
       <!-- Chart -->
       <TaxChart v-if="payslips.length > 0" :payslips="payslips" />
 
       <!-- Payslip List -->
-      <PayslipList
-        :payslips="payslips"
-        :year="selectedYear"
-        @refresh="fetchData"
-        @edit="handleEdit"
-      />
+      <PayslipList :payslips="payslips" :year="selectedYear" @refresh="fetchData" @edit="handleEdit" />
 
       <!-- Tax Brackets Info -->
       <div class="card">

@@ -7,9 +7,11 @@ The application uses custom modal components instead of native JavaScript `confi
 ## Available Modals
 
 ### 1. ConfirmModal
+
 Used for confirmation dialogs that require user action (Yes/No, Confirm/Cancel).
 
 **Features:**
+
 - Custom title and message
 - 4 types: `info`, `success`, `warning`, `danger`
 - Customizable button text
@@ -19,9 +21,11 @@ Used for confirmation dialogs that require user action (Yes/No, Confirm/Cancel).
 - Smooth animations
 
 ### 2. AlertModal
+
 Used for simple notifications that only need acknowledgment.
 
 **Features:**
+
 - Custom title and message
 - 4 types: `info`, `success`, `warning`, `error`
 - Customizable button text
@@ -111,60 +115,60 @@ const handleDelete = async () => {
 
 ## ConfirmModal Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `isOpen` | Boolean | `false` | Controls modal visibility |
-| `title` | String | Required | Modal title |
-| `message` | String | Required | Modal message/description |
-| `type` | String | `'info'` | Modal type: `info`, `success`, `warning`, `danger` |
-| `confirmText` | String | `'Konfirmasi'` | Confirm button text |
-| `cancelText` | String | `'Batal'` | Cancel button text |
-| `showCancel` | Boolean | `true` | Show/hide cancel button |
-| `loading` | Boolean | `false` | Show loading state on confirm button |
+| Prop          | Type    | Default        | Description                                        |
+| ------------- | ------- | -------------- | -------------------------------------------------- |
+| `isOpen`      | Boolean | `false`        | Controls modal visibility                          |
+| `title`       | String  | Required       | Modal title                                        |
+| `message`     | String  | Required       | Modal message/description                          |
+| `type`        | String  | `'info'`       | Modal type: `info`, `success`, `warning`, `danger` |
+| `confirmText` | String  | `'Konfirmasi'` | Confirm button text                                |
+| `cancelText`  | String  | `'Batal'`      | Cancel button text                                 |
+| `showCancel`  | Boolean | `true`         | Show/hide cancel button                            |
+| `loading`     | Boolean | `false`        | Show loading state on confirm button               |
 
 ## ConfirmModal Events
 
-| Event | Payload | Description |
-|-------|---------|-------------|
-| `@confirm` | None | Emitted when confirm button is clicked |
-| `@cancel` | None | Emitted when cancel button is clicked |
-| `@close` | None | Emitted when modal is closed (same as cancel) |
+| Event      | Payload | Description                                   |
+| ---------- | ------- | --------------------------------------------- |
+| `@confirm` | None    | Emitted when confirm button is clicked        |
+| `@cancel`  | None    | Emitted when cancel button is clicked         |
+| `@close`   | None    | Emitted when modal is closed (same as cancel) |
 
 ## AlertModal Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `isOpen` | Boolean | `false` | Controls modal visibility |
-| `title` | String | `''` | Modal title (optional) |
-| `message` | String | Required | Modal message/description |
-| `type` | String | `'info'` | Modal type: `info`, `success`, `warning`, `error` |
-| `buttonText` | String | `'OK'` | Button text |
+| Prop         | Type    | Default  | Description                                       |
+| ------------ | ------- | -------- | ------------------------------------------------- |
+| `isOpen`     | Boolean | `false`  | Controls modal visibility                         |
+| `title`      | String  | `''`     | Modal title (optional)                            |
+| `message`    | String  | Required | Modal message/description                         |
+| `type`       | String  | `'info'` | Modal type: `info`, `success`, `warning`, `error` |
+| `buttonText` | String  | `'OK'`   | Button text                                       |
 
 ## AlertModal Events
 
-| Event | Payload | Description |
-|-------|---------|-------------|
-| `@close` | None | Emitted when modal is closed |
+| Event    | Payload | Description                  |
+| -------- | ------- | ---------------------------- |
+| `@close` | None    | Emitted when modal is closed |
 
 ## Modal Types
 
 ### Confirmation Modal Types
 
-| Type | Icon | Color | Use Case |
-|------|------|-------|----------|
-| `info` | Info circle | Blue | General information confirmations |
-| `success` | Checkmark | Green | Successful action confirmations |
-| `warning` | Warning triangle | Yellow | Warning confirmations |
-| `danger` | Alert triangle | Red | Destructive action confirmations (delete, etc.) |
+| Type      | Icon             | Color  | Use Case                                        |
+| --------- | ---------------- | ------ | ----------------------------------------------- |
+| `info`    | Info circle      | Blue   | General information confirmations               |
+| `success` | Checkmark        | Green  | Successful action confirmations                 |
+| `warning` | Warning triangle | Yellow | Warning confirmations                           |
+| `danger`  | Alert triangle   | Red    | Destructive action confirmations (delete, etc.) |
 
 ### Alert Modal Types
 
-| Type | Icon | Color | Use Case |
-|------|------|-------|----------|
-| `info` | Info circle | Blue | General information alerts |
-| `success` | Checkmark | Green | Success notifications |
-| `warning` | Warning triangle | Yellow | Warning messages |
-| `error` | X mark | Red | Error messages |
+| Type      | Icon             | Color  | Use Case                   |
+| --------- | ---------------- | ------ | -------------------------- |
+| `info`    | Info circle      | Blue   | General information alerts |
+| `success` | Checkmark        | Green  | Success notifications      |
+| `warning` | Warning triangle | Yellow | Warning messages           |
+| `error`   | X mark           | Red    | Error messages             |
 
 ## Examples
 
@@ -293,17 +297,20 @@ const showError = (message) => {
 ## Best Practices
 
 ### 1. Use Appropriate Types
+
 - Use `danger` for destructive actions (delete, remove, etc.)
 - Use `warning` for actions that might have consequences
 - Use `info` for general confirmations
 - Use `success` for positive confirmations
 
 ### 2. Clear Messaging
+
 - Title should be a question for confirmations
 - Message should explain the consequence
 - Use clear, action-oriented button text
 
 **Good:**
+
 ```javascript
 {
   title: 'Hapus Payslip?',
@@ -314,6 +321,7 @@ const showError = (message) => {
 ```
 
 **Bad:**
+
 ```javascript
 {
   title: 'Konfirmasi',
@@ -324,6 +332,7 @@ const showError = (message) => {
 ```
 
 ### 3. Loading States
+
 Always show loading state for async operations:
 
 ```javascript
@@ -338,6 +347,7 @@ const confirmDelete = async () => {
 ```
 
 ### 4. Error Handling
+
 Show error alerts when operations fail:
 
 ```javascript
@@ -349,6 +359,7 @@ try {
 ```
 
 ### 5. Reactive State
+
 Use `reactive()` for modal state to keep all properties together:
 
 ```javascript
@@ -366,6 +377,7 @@ const modal = reactive({
 ### From JavaScript Prompts to Modals
 
 **Before (JavaScript confirm):**
+
 ```javascript
 const handleDelete = async (item) => {
   if (!confirm('Delete this item?')) {
@@ -376,6 +388,7 @@ const handleDelete = async (item) => {
 ```
 
 **After (Modal):**
+
 ```javascript
 const deleteModal = reactive({
   isOpen: false,
@@ -404,6 +417,7 @@ const confirmDelete = async () => {
 ```
 
 **Before (JavaScript alert):**
+
 ```javascript
 try {
   await saveData()
@@ -413,6 +427,7 @@ try {
 ```
 
 **After (Modal):**
+
 ```javascript
 const errorModal = reactive({
   isOpen: false,
@@ -440,6 +455,7 @@ The modals include built-in accessibility features:
 ## Future Enhancements
 
 Potential improvements:
+
 - Form modals (input prompts)
 - Multi-step modals
 - Draggable modals
@@ -451,6 +467,7 @@ Potential improvements:
 ---
 
 **Questions or issues?** Check the component files:
+
 - `/components/ConfirmModal.vue`
 - `/components/AlertModal.vue`
 - `/composables/useModal.ts`

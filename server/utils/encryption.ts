@@ -1,7 +1,7 @@
 import crypto from 'crypto'
 
 const ALGORITHM = 'aes-256-gcm'
-const IV_LENGTH = 12      // GCM recommended IV length
+const IV_LENGTH = 12 // GCM recommended IV length
 const AUTH_TAG_LENGTH = 16
 const SEPARATOR = ':'
 
@@ -24,17 +24,10 @@ export function encrypt(plaintext: string): string {
     authTagLength: AUTH_TAG_LENGTH
   })
 
-  const encrypted = Buffer.concat([
-    cipher.update(plaintext, 'utf8'),
-    cipher.final()
-  ])
+  const encrypted = Buffer.concat([cipher.update(plaintext, 'utf8'), cipher.final()])
   const authTag = cipher.getAuthTag()
 
-  return [
-    iv.toString('hex'),
-    authTag.toString('hex'),
-    encrypted.toString('hex')
-  ].join(SEPARATOR)
+  return [iv.toString('hex'), authTag.toString('hex'), encrypted.toString('hex')].join(SEPARATOR)
 }
 
 /**
@@ -56,10 +49,7 @@ export function decrypt(ciphertext: string): string {
   })
   decipher.setAuthTag(authTag)
 
-  const decrypted = Buffer.concat([
-    decipher.update(encrypted),
-    decipher.final()
-  ])
+  const decrypted = Buffer.concat([decipher.update(encrypted), decipher.final()])
 
   return decrypted.toString('utf8')
 }

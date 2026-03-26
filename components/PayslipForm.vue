@@ -15,14 +15,7 @@
 
         <div>
           <label class="label">Tahun</label>
-          <input
-            v-model.number="form.year"
-            type="number"
-            class="input"
-            :min="2020"
-            :max="2030"
-            required
-          />
+          <input v-model.number="form.year" type="number" class="input" :min="2020" :max="2030" required />
         </div>
 
         <div>
@@ -47,9 +40,7 @@
             readonly
             disabled
           />
-          <p class="text-xs text-gray-500 mt-1">
-            Auto-calculated: Gaji Bruto - (PPh21 + Potongan Lain)
-          </p>
+          <p class="text-xs text-gray-500 mt-1">Auto-calculated: Gaji Bruto - (PPh21 + Potongan Lain)</p>
         </div>
 
         <div>
@@ -66,13 +57,7 @@
 
         <div>
           <label class="label">Potongan Lain (BPJS, dll)</label>
-          <input
-            v-model.number="form.otherDeductions"
-            type="number"
-            step="0.01"
-            class="input"
-            placeholder="1000000"
-          />
+          <input v-model.number="form.otherDeductions" type="number" step="0.01" class="input" placeholder="1000000" />
         </div>
 
         <div class="md:col-span-2">
@@ -83,9 +68,7 @@
             class="input"
             placeholder="https://drive.google.com/file/... atau https://..."
           />
-          <p class="text-xs text-gray-500 mt-1">
-            Link ke file payslip (PDF, gambar, Google Drive, Dropbox, dll)
-          </p>
+          <p class="text-xs text-gray-500 mt-1">Link ke file payslip (PDF, gambar, Google Drive, Dropbox, dll)</p>
         </div>
       </div>
 
@@ -101,14 +84,7 @@
         <button type="submit" class="btn btn-primary" :disabled="loading">
           {{ loading ? 'Menyimpan...' : 'Simpan' }}
         </button>
-        <button
-          v-if="showCancel"
-          type="button"
-          class="btn btn-secondary"
-          @click="$emit('cancel')"
-        >
-          Batal
-        </button>
+        <button v-if="showCancel" type="button" class="btn btn-secondary" @click="$emit('cancel')">Batal</button>
       </div>
     </form>
   </div>
@@ -178,27 +154,31 @@ const formatCurrency = (value) => {
 }
 
 // Watch for changes in initialData and update form
-watch(() => props.initialData, (newData) => {
-  if (newData) {
-    form.month = newData.month || ''
-    form.year = newData.year || new Date().getFullYear()
-    form.grossSalary = newData.grossSalary || 0
-    form.pph21Deducted = newData.pph21Deducted || 0
-    form.otherDeductions = newData.otherDeductions || 0
-    form.fileUrl = newData.fileUrl || ''
-  } else {
-    // Reset form when initialData is null (adding new)
-    form.month = ''
-    form.year = new Date().getFullYear()
-    form.grossSalary = 0
-    form.pph21Deducted = 0
-    form.otherDeductions = 0
-    form.fileUrl = ''
-  }
-  // Clear any messages when switching between add/edit
-  error.value = ''
-  success.value = ''
-}, { immediate: true })
+watch(
+  () => props.initialData,
+  (newData) => {
+    if (newData) {
+      form.month = newData.month || ''
+      form.year = newData.year || new Date().getFullYear()
+      form.grossSalary = newData.grossSalary || 0
+      form.pph21Deducted = newData.pph21Deducted || 0
+      form.otherDeductions = newData.otherDeductions || 0
+      form.fileUrl = newData.fileUrl || ''
+    } else {
+      // Reset form when initialData is null (adding new)
+      form.month = ''
+      form.year = new Date().getFullYear()
+      form.grossSalary = 0
+      form.pph21Deducted = 0
+      form.otherDeductions = 0
+      form.fileUrl = ''
+    }
+    // Clear any messages when switching between add/edit
+    error.value = ''
+    success.value = ''
+  },
+  { immediate: true }
+)
 
 const resetForm = () => {
   form.month = ''

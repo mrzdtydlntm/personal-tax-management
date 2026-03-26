@@ -25,18 +25,14 @@ export default defineEventHandler(async (event) => {
   const totalPph21Deducted = payslips.reduce((sum, p) => sum + p.pph21Deducted, 0)
   const totalTakeHomePay = payslips.reduce((sum, p) => sum + p.takeHomePay, 0)
 
-  const taxCalculation = calculateAnnualTax(
-    annualGrossIncome,
-    ptkpStatus || 'TK/0',
-    totalPph21Deducted
-  )
+  const taxCalculation = calculateAnnualTax(annualGrossIncome, ptkpStatus || 'TK/0', totalPph21Deducted)
 
-  const latestMonth = Math.max(...payslips.map(p => p.month))
+  const latestMonth = Math.max(...payslips.map((p) => p.month))
   let projection = null
 
   if (latestMonth < 12 && currentYear === new Date().getFullYear()) {
     projection = calculateMonthlyProjection(
-      payslips.map(p => ({ grossSalary: p.grossSalary, pph21Deducted: p.pph21Deducted })),
+      payslips.map((p) => ({ grossSalary: p.grossSalary, pph21Deducted: p.pph21Deducted })),
       latestMonth
     )
   }
@@ -47,7 +43,7 @@ export default defineEventHandler(async (event) => {
     totalTakeHomePay,
     ...taxCalculation,
     projection,
-    monthlyBreakdown: payslips.map(p => ({
+    monthlyBreakdown: payslips.map((p) => ({
       month: p.month,
       grossSalary: p.grossSalary,
       pph21Deducted: p.pph21Deducted,

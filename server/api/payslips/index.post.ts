@@ -37,11 +37,11 @@ export default defineEventHandler(async (event) => {
       userId,
       month,
       year,
-      grossSalary:     encryptNumber(parseFloat(grossSalary)),
-      takeHomePay:     encryptNumber(parseFloat(takeHomePay)),
-      pph21Deducted:   encryptNumber(parseFloat(pph21Deducted)),
+      grossSalary: encryptNumber(parseFloat(grossSalary)),
+      takeHomePay: encryptNumber(parseFloat(takeHomePay)),
+      pph21Deducted: encryptNumber(parseFloat(pph21Deducted)),
       otherDeductions: encryptNumber(otherDeductions ? parseFloat(otherDeductions) : 0),
-      fileUrl:         fileUrl || null
+      fileUrl: fileUrl || null
     }
   })
 

@@ -21,6 +21,7 @@ pnpm prisma:migrate
 When prompted for migration name, enter: `add_file_url_to_payslip`
 
 This will:
+
 - Add the `fileUrl` column to the `Payslip` table
 - Set it as nullable (optional field)
 - Update existing records with NULL values
@@ -53,6 +54,7 @@ ALTER TABLE "Payslip" DROP COLUMN "fileUrl";
 ```
 
 Then regenerate Prisma client:
+
 ```bash
 pnpm prisma generate
 ```
@@ -70,13 +72,16 @@ After migration, test the feature:
 ## What's New
 
 ### Database Schema
+
 - Added `fileUrl String?` field to Payslip model
 
 ### API Endpoints
+
 - POST `/api/payslips` now accepts `fileUrl` parameter
 - PUT `/api/payslips/:id` now accepts `fileUrl` parameter
 
 ### UI Components
+
 - PayslipForm: New input field for file URL
 - PayslipList: New column showing file links
 

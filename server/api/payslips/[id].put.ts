@@ -18,13 +18,13 @@ export default defineEventHandler(async (event) => {
   }
 
   const updateData: any = {}
-  if (body.month !== undefined)           updateData.month = parseInt(body.month)
-  if (body.year !== undefined)            updateData.year = parseInt(body.year)
-  if (body.grossSalary !== undefined)     updateData.grossSalary = encryptNumber(parseFloat(body.grossSalary))
-  if (body.takeHomePay !== undefined)     updateData.takeHomePay = encryptNumber(parseFloat(body.takeHomePay))
-  if (body.pph21Deducted !== undefined)   updateData.pph21Deducted = encryptNumber(parseFloat(body.pph21Deducted))
+  if (body.month !== undefined) updateData.month = parseInt(body.month)
+  if (body.year !== undefined) updateData.year = parseInt(body.year)
+  if (body.grossSalary !== undefined) updateData.grossSalary = encryptNumber(parseFloat(body.grossSalary))
+  if (body.takeHomePay !== undefined) updateData.takeHomePay = encryptNumber(parseFloat(body.takeHomePay))
+  if (body.pph21Deducted !== undefined) updateData.pph21Deducted = encryptNumber(parseFloat(body.pph21Deducted))
   if (body.otherDeductions !== undefined) updateData.otherDeductions = encryptNumber(parseFloat(body.otherDeductions))
-  if (body.fileUrl !== undefined)         updateData.fileUrl = body.fileUrl || null
+  if (body.fileUrl !== undefined) updateData.fileUrl = body.fileUrl || null
 
   const row = await prisma.payslip.update({
     where: { id },

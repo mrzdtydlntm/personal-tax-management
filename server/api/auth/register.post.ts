@@ -22,19 +22,14 @@ export default defineEventHandler(async (event) => {
   // Check if username or email already exists
   const existing = await prisma.user.findFirst({
     where: {
-      OR: [
-        { username: username.trim() },
-        { email: email.trim().toLowerCase() }
-      ]
+      OR: [{ username: username.trim() }, { email: email.trim().toLowerCase() }]
     }
   })
 
   if (existing) {
     throw createError({
       statusCode: 409,
-      message: existing.email === email.trim().toLowerCase()
-        ? 'Email already registered'
-        : 'Username already taken'
+      message: existing.email === email.trim().toLowerCase() ? 'Email already registered' : 'Username already taken'
     })
   }
 

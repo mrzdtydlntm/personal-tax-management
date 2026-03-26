@@ -3,9 +3,7 @@
     <div class="space-y-6">
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Kelola Payslip</h1>
-        <NuxtLink to="/" class="btn btn-secondary w-full sm:w-auto text-center">
-          Kembali ke Dashboard
-        </NuxtLink>
+        <NuxtLink to="/" class="btn btn-secondary w-full sm:w-auto text-center">Kembali ke Dashboard</NuxtLink>
       </div>
 
       <!-- Add/Edit Form -->
@@ -28,12 +26,7 @@
       </div>
 
       <!-- Payslip List -->
-      <PayslipList
-        :payslips="payslips"
-        :year="selectedYear"
-        @refresh="fetchPayslips"
-        @edit="handleEdit"
-      />
+      <PayslipList :payslips="payslips" :year="selectedYear" @refresh="fetchPayslips" @edit="handleEdit" />
     </div>
   </NuxtLayout>
 </template>
@@ -76,7 +69,7 @@ const cancelEdit = () => {
 
 const handleSuccess = async () => {
   // Wait a bit to ensure database has been updated
-  await new Promise(resolve => setTimeout(resolve, 100))
+  await new Promise((resolve) => setTimeout(resolve, 100))
 
   // Fetch fresh data from the server
   await fetchPayslips()
@@ -93,7 +86,7 @@ onMounted(async () => {
 
   // Handle edit from query param
   if (route.query.edit) {
-    const payslip = payslips.value.find(p => p.id === route.query.edit)
+    const payslip = payslips.value.find((p) => p.id === route.query.edit)
     if (payslip) {
       editingPayslip.value = payslip
     }

@@ -5,14 +5,10 @@ export default defineEventHandler((event) => {
   const path = url.pathname
 
   // Public paths that don't require authentication
-  const publicPaths = [
-    '/api/auth/login',
-    '/api/auth/register',
-    '/api/auth/check',
-  ]
+  const publicPaths = ['/api/auth/login', '/api/auth/register', '/api/auth/check']
 
   // Check if the path is public
-  const isPublicPath = publicPaths.some(publicPath => path.startsWith(publicPath))
+  const isPublicPath = publicPaths.some((publicPath) => path.startsWith(publicPath))
 
   // Skip auth check for public paths and static assets
   if (isPublicPath || path.startsWith('/_nuxt') || path.startsWith('/api/_')) {
