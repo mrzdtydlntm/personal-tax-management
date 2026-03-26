@@ -11,6 +11,7 @@
         :title="editingPayslip ? 'Edit Payslip' : 'Tambah Payslip Baru'"
         :initial-data="editingPayslip"
         :show-cancel="!!editingPayslip"
+        :is-loading-data="changingMode"
         @success="handleSuccess"
         @cancel="cancelEdit"
       />
@@ -26,7 +27,7 @@
       </div>
 
       <!-- Payslip List -->
-      <PayslipList :payslips="payslips" :year="selectedYear" :loading="loading" @refresh="fetchPayslips" @edit="handleEdit" />
+      <PayslipList :payslips="payslips" :year="selectedYear" :loading="loading" :loading-edit-id="loadingEditId" @refresh="fetchPayslips" @edit="handleEdit" />
     </div>
   </NuxtLayout>
 </template>
@@ -39,6 +40,8 @@ const selectedYear = ref(new Date().getFullYear())
 const payslips = ref([])
 const editingPayslip = ref(null)
 const loading = ref(false)
+const changingMode = ref(false)
+const loadingEditId = ref(null)
 
 const years = computed(() => {
   const currentYear = new Date().getFullYear()
@@ -59,10 +62,20 @@ const fetchPayslips = async () => {
   }
 }
 
-const handleEdit = (payslip) => {
-  editingPayslip.value = payslip
-  router.push({ query: { edit: payslip.id } })
+const handleEdit = async (payslip) => {
+  loadingEditId.value = payslip.id
+  changingMode.value = true
+  
   window.scrollTo({ top: 0, behavior: 'smooth' })
+  
+  try {
+    await new Promise(resolve => setTimeout(resolve, 600)) // Artificial delay to ensure loader is visible
+    await router.push({ query: { edit: payslip.id } })
+    editingPayslip.value = payslip
+  } finally {
+    loadingEditId.value = null
+    changingMode.value = false
+  }
 }
 
 const cancelEdit = () => {
