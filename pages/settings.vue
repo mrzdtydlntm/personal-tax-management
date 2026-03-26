@@ -233,7 +233,31 @@
           </p>
         </div>
       </div>
+
+      <!-- ─── Danger Zone ─── -->
+      <div class="card border border-red-200 bg-red-50">
+        <h3 class="text-lg font-semibold text-red-700 mb-1">Zona Bahaya</h3>
+        <p class="text-sm text-red-600 mb-5">
+          Tindakan ini akan menghapus akun Anda secara permanen beserta seluruh data terkait (slip gaji, pengaturan). Tindakan ini tidak dapat dibatalkan.
+        </p>
+        <button type="button" class="btn bg-red-600 hover:bg-red-700 text-white border-transparent w-auto inline-block" @click="accountDeleteModal.isOpen = true">
+          Hapus Akun Permanen
+        </button>
+      </div>
     </div>
+
+    <!-- Delete Account Modal -->
+    <ConfirmModal
+      :is-open="accountDeleteModal.isOpen"
+      title="Hapus Akun Permanen?"
+      message="Apakah Anda yakin ingin menghapus akun ini beserta seluruh datanya? Tindakan ini tidak dapat dibatalkan."
+      type="danger"
+      confirm-text="Ya, Hapus Akun"
+      :loading="accountDeleteModal.loading"
+      @confirm="confirmDeleteAccount"
+      @cancel="accountDeleteModal.isOpen = false"
+      @close="accountDeleteModal.isOpen = false"
+    />
   </NuxtLayout>
 </template>
 
@@ -363,6 +387,26 @@ const savePtkp = async () => {
     setTimeout(() => { ptkpError.value = '' }, 3000)
   } finally {
     ptkpSaving.value = false
+  }
+}
+
+// ─── Account Deletion ──────────────────────────────────────
+const accountDeleteModal = reactive({
+  isOpen: false,
+  loading: false
+})
+
+const confirmDeleteAccount = async () => {
+  accountDeleteModal.loading = true
+  try {
+    await $fetch('/api/auth/account', { method: 'DELETE' })
+    accountDeleteModal.isOpen = false
+    useRouter().push('/login')
+  } catch (e) {
+    console.error('Failed to delete account:', e)
+    alert(e.data?.message || 'Gagal menghapus akun')
+  } finally {
+    accountDeleteModal.loading = false
   }
 }
 
