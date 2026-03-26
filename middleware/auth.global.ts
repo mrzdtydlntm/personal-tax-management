@@ -1,5 +1,5 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  const publicRoutes = ['/login', '/register']
+  const publicRoutes = ['/login', '/register', '/forgot-password', '/reset-password']
   const isPublicRoute = publicRoutes.includes(to.path)
 
   let authenticated = false
