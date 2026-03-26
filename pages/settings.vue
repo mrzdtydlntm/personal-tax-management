@@ -106,26 +106,6 @@
           </p>
         </div>
       </div>
-
-      <!-- Database Connection Info -->
-      <div class="card">
-        <h3 class="text-lg font-semibold mb-4">Informasi Database</h3>
-        <div class="space-y-2 text-sm">
-          <div class="flex justify-between">
-            <span class="text-gray-600">Database Type:</span>
-            <span class="font-semibold">PostgreSQL (NeonDB Compatible)</span>
-          </div>
-          <div class="p-3 bg-gray-50 rounded">
-            <p class="text-gray-700">
-              Aplikasi ini menggunakan PostgreSQL dan kompatibel dengan NeonDB. Pastikan Anda sudah mengatur
-              <code class="bg-gray-200 px-1 rounded">DATABASE_URL</code>
-              di file
-              <code class="bg-gray-200 px-1 rounded">.env</code>
-              Anda.
-            </p>
-          </div>
-        </div>
-      </div>
     </div>
   </NuxtLayout>
 </template>
