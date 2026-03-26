@@ -5,7 +5,14 @@ export default defineEventHandler((event) => {
   const path = url.pathname
 
   // Public paths that don't require authentication
-  const publicPaths = ['/api/auth/login', '/api/auth/register', '/api/auth/check']
+  const publicPaths = [
+    '/api/auth/login',
+    '/api/auth/register',
+    '/api/auth/check',
+    '/api/auth/forgot-password',
+    '/api/auth/validate-reset-token',
+    '/api/auth/reset-password'
+  ]
 
   // Check if the path is public
   const isPublicPath = publicPaths.some((publicPath) => path.startsWith(publicPath))

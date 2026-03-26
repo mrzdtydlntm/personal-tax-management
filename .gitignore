@@ -29,3 +29,6 @@ prisma/*.db-journal
 
 # Claude
 .claude/
+
+# SQL Backup
+sql/

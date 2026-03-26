@@ -17,10 +17,25 @@ model User {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  payslips    Payslip[]
-  taxSettings TaxSettings?
+  payslips            Payslip[]
+  taxSettings         TaxSettings?
+  passwordResetTokens PasswordResetToken[]
 
   @@index([email])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  token     String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
 }
 
 model Payslip {

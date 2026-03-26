@@ -33,7 +33,10 @@
         </div>
 
         <div>
-          <label class="label">Password</label>
+          <div class="flex items-center justify-between mb-1">
+            <label class="label">Password</label>
+            <NuxtLink to="/forgot-password" class="text-xs text-blue-600 hover:text-blue-800">Lupa password?</NuxtLink>
+          </div>
           <div class="relative">
             <input
               v-model="form.password"
