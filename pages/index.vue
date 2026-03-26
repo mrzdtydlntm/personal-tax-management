@@ -20,7 +20,13 @@
       <TaxChart v-if="loading || payslips.length > 0" :payslips="payslips" :loading="loading" />
 
       <!-- Payslip List -->
-      <PayslipList :payslips="payslips" :year="selectedYear" :loading="loading" @refresh="fetchData" @edit="handleEdit" />
+      <PayslipList
+        :payslips="payslips"
+        :year="selectedYear"
+        :loading="loading"
+        @refresh="fetchData"
+        @edit="handleEdit"
+      />
 
       <!-- Tax Brackets Info -->
       <div class="card">
@@ -71,7 +77,7 @@ const loading = ref(false)
 
 const years = computed(() => {
   const currentYear = new Date().getFullYear()
-  return Array.from({ length: 5 }, (_, i) => currentYear - 2 + i)
+  return Array.from({ length: 8 }, (_, i) => currentYear - 7 + i)
 })
 
 const fetchData = async () => {
